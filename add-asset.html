@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zicht op Vermogen - Asset toevoegen</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">Zicht op Vermogen</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Demo dashboard</a>
+        <a class="active" href="add-asset.html">Asset toevoegen</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-section">
+    <section class="card form-card">
+      <h1>Handmatig asset toevoegen</h1>
+      <p class="subtitle">Frontend-demoformulier voor de MVP. In fase 2 koppelen we deze invoer aan backend en validatie.</p>
+
+      <form id="asset-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Naam bezit</label>
+            <input id="name" name="name" type="text" placeholder="Bijv. VWRL ETF" required />
+          </div>
+
+          <div class="form-group">
+            <label for="asset-class">Asset class</label>
+            <select id="asset-class" name="asset_class" required>
+              <option value="">Kies een class</option>
+              <option>aandelen</option>
+              <option>bonds</option>
+              <option>commodity’s</option>
+              <option>vastgoed</option>
+              <option>crypto</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">Aantal / omvang</label>
+            <input id="quantity" name="quantity" type="number" step="0.0001" min="0" placeholder="0" required />
+          </div>
+
+          <div class="form-group">
+            <label for="value">Huidige waarde (€)</label>
+            <input id="value" name="value" type="number" step="0.01" min="0" placeholder="0.00" required />
+          </div>
+
+          <div class="form-group full">
+            <label for="notes">Notitie</label>
+            <textarea id="notes" name="notes" placeholder="Bijv. lange termijn positie, herkomst, strategie."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <span class="form-hint">Dit formulier slaat nog niets permanent op (demo).</span>
+          <button class="button" type="submit">Asset toevoegen</button>
+        </div>
+      </form>
+
+      <div class="notice" id="success-notice">
+        Demo asset toegevoegd. In de volgende fase koppelen we dit aan de portfolio-database.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Frontend-only MVP • klaar voor uitbreiding met API en opslag.</footer>
+
+  <script src="ui.js"></script>
+</body>
+</html>
