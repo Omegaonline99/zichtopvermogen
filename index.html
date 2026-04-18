@@ -22,40 +22,48 @@
     <section class="hero container">
       <div class="hero-grid">
         <article class="hero-card">
-          <h1>Modern vermogensbeheer voor jouw volledige portfolio</h1>
+          <span class="eyebrow">Persoonlijk vermogensbeheer · MVP</span>
+          <h1>Één professioneel overzicht van je volledige vermogen</h1>
           <p class="subtitle">
-            Krijg één helder overzicht van je vermogen met een privacyvriendelijke en uitbreidbare interface.
-            Deze MVP-front-end laat de basis zien voor dashboarding, allocatie en handmatig assetbeheer.
+            Breng aandelen, bonds, commodity’s, vastgoed en crypto samen in één moderne interface.
+            Zie direct je totale vermogenspositie, verdeling en concentratierisico — zonder complexe tooling.
           </p>
+
+          <ul class="benefits-list">
+            <li>Direct inzicht in totale vermogensverdeling</li>
+            <li>Heldere dashboards per asset class en bezit</li>
+            <li>Voorbereid op toekomstige DeGiro- en Bitvavo-import</li>
+          </ul>
+
           <div class="button-group">
             <a class="button" href="dashboard.html">Bekijk demo dashboard</a>
-            <a class="button secondary" href="add-asset.html">Voeg demo-asset toe</a>
+            <a class="button secondary" href="add-asset.html">Start met asset toevoegen</a>
           </div>
-          <div class="tags">
-            <span class="tag">Aandelen</span>
-            <span class="tag">Bonds</span>
-            <span class="tag">Commodity’s</span>
-            <span class="tag">Vastgoed</span>
-            <span class="tag">Crypto</span>
+
+          <div class="trust-row">
+            <span class="trust-item">Frontend-only MVP</span>
+            <span class="trust-item">Privacyvriendelijke basis</span>
+            <span class="trust-item">Klaar voor schaalbare uitbreiding</span>
           </div>
         </article>
 
         <aside class="panel metrics">
+          <h2 class="panel-title">Demo portfolio snapshot</h2>
           <div class="metric-item">
-            <div class="metric-title">Totale demo portefeuille</div>
+            <div class="metric-title">Totaal vermogen</div>
             <div class="metric-value">€ 124.500</div>
           </div>
           <div class="metric-item">
-            <div class="metric-title">Aantal bezittingen</div>
-            <div class="metric-value">12 assets</div>
-          </div>
-          <div class="metric-item">
-            <div class="metric-title">Asset classes in MVP</div>
+            <div class="metric-title">Asset classes actief</div>
             <div class="metric-value">5 categorieën</div>
           </div>
           <div class="metric-item">
-            <div class="metric-title">Architectuurstatus</div>
-            <div class="metric-value">Frontend-only</div>
+            <div class="metric-title">Aantal posities</div>
+            <div class="metric-value">12 bezittingen</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-title">Hoogste allocatie</div>
+            <div class="metric-value">Aandelen · 41,8%</div>
           </div>
         </aside>
       </div>
@@ -63,7 +71,7 @@
   </main>
 
   <footer class="footer">
-    MVP demo-interface • klaar voor latere auth, database en brokerimports.
+    MVP-interface voor validatie van UX en informatie-architectuur • nog zonder backend of brokerkoppelingen.
   </footer>
 </body>
 </html>

@@ -20,44 +20,83 @@
 
   <main class="container page-section">
     <section>
-      <h1>Portfolio dashboard (demo)</h1>
-      <p class="subtitle">Realtime data volgt in latere fases. Deze pagina toont de beoogde UI-structuur.</p>
+      <span class="eyebrow">Persoonlijk dashboard · demo data</span>
+      <h1>Portfolio-overzicht</h1>
+      <p class="subtitle">Frontend-only prototype met logische structuur voor vermogensbeheer en latere data-integraties.</p>
 
       <div class="kpi-grid">
         <article class="card"><h3>Totaal vermogen</h3><div class="value">€ 124.500</div></article>
-        <article class="card"><h3>Aandelen</h3><div class="value">€ 52.000</div></article>
-        <article class="card"><h3>Bonds</h3><div class="value">€ 8.000</div></article>
-        <article class="card"><h3>Commodity’s</h3><div class="value">€ 6.000</div></article>
-        <article class="card"><h3>Vastgoed</h3><div class="value">€ 40.000</div></article>
-        <article class="card"><h3>Crypto</h3><div class="value">€ 18.500</div></article>
+        <article class="card"><h3>Maandmutatie</h3><div class="value positive">+ € 2.140</div></article>
+        <article class="card"><h3>Aantal bezittingen</h3><div class="value">12</div></article>
+        <article class="card"><h3>Liquiditeit</h3><div class="value">€ 7.600</div></article>
       </div>
     </section>
 
+    <section class="dashboard-grid">
+      <article class="card">
+        <h2>Verdeling per asset class</h2>
+        <div class="allocation-list">
+          <div class="allocation-item">
+            <div class="allocation-head"><span>Aandelen</span><strong>41,8%</strong></div>
+            <div class="allocation-bar"><span style="width: 41.8%"></span></div>
+          </div>
+          <div class="allocation-item">
+            <div class="allocation-head"><span>Vastgoed</span><strong>32,1%</strong></div>
+            <div class="allocation-bar"><span style="width: 32.1%"></span></div>
+          </div>
+          <div class="allocation-item">
+            <div class="allocation-head"><span>Crypto</span><strong>14,9%</strong></div>
+            <div class="allocation-bar"><span style="width: 14.9%"></span></div>
+          </div>
+          <div class="allocation-item">
+            <div class="allocation-head"><span>Bonds</span><strong>6,4%</strong></div>
+            <div class="allocation-bar"><span style="width: 6.4%"></span></div>
+          </div>
+          <div class="allocation-item">
+            <div class="allocation-head"><span>Commodity’s</span><strong>4,8%</strong></div>
+            <div class="allocation-bar"><span style="width: 4.8%"></span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Spreiding & concentratierisico (demo)</h2>
+        <div class="risk-block">
+          <p><strong>Top 3 bezittingen:</strong> 58,6% van totaal vermogen.</p>
+          <p class="risk-note">Interpretatie: matig concentratierisico. Extra spreiding mogelijk via defensieve assets.</p>
+        </div>
+        <ul class="mini-list">
+          <li><span>VWRL ETF</span><strong>€ 12.500</strong></li>
+          <li><span>Appartement Rotterdam</span><strong>€ 40.000</strong></li>
+          <li><span>Bitcoin</span><strong>€ 9.200</strong></li>
+        </ul>
+      </article>
+    </section>
+
     <section class="card" style="margin-top: 1rem;">
-      <h2>Overzicht bezittingen</h2>
+      <h2>Recente bezittingen</h2>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
+              <th>Datum</th>
               <th>Asset</th>
               <th>Class</th>
               <th>Waarde</th>
-              <th>Verdeling</th>
-              <th>Notitie</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>VWRL ETF</td><td>Aandelen</td><td>€ 12.500</td><td>10.0%</td><td>Core positie</td></tr>
-            <tr><td>Bitcoin</td><td>Crypto</td><td>€ 9.200</td><td>7.4%</td><td>Lange termijn</td></tr>
-            <tr><td>Goud ETF</td><td>Commodity’s</td><td>€ 3.000</td><td>2.4%</td><td>Risicospreiding</td></tr>
-            <tr><td>Obligatiefonds</td><td>Bonds</td><td>€ 8.000</td><td>6.4%</td><td>Defensieve laag</td></tr>
-            <tr><td>REIT Europe</td><td>Vastgoed</td><td>€ 15.000</td><td>12.1%</td><td>Inkomensfocus</td></tr>
+            <tr><td>16-04-2026</td><td>iShares MSCI World</td><td>Aandelen</td><td>€ 4.600</td><td><span class="status-chip">Toegevoegd</span></td></tr>
+            <tr><td>14-04-2026</td><td>Ethereum</td><td>Crypto</td><td>€ 3.150</td><td><span class="status-chip">Geüpdatet</span></td></tr>
+            <tr><td>12-04-2026</td><td>Goud ETC</td><td>Commodity’s</td><td>€ 2.250</td><td><span class="status-chip">Toegevoegd</span></td></tr>
+            <tr><td>10-04-2026</td><td>NL Staatsobligatie 2031</td><td>Bonds</td><td>€ 6.800</td><td><span class="status-chip">Geüpdatet</span></td></tr>
           </tbody>
         </table>
       </div>
     </section>
   </main>
 
-  <footer class="footer">Demo data • nog geen brokerkoppelingen of backend-logica.</footer>
+  <footer class="footer">Demo data • klaar voor latere koppeling met portfolio-API en waarderingsengine.</footer>
 </body>
 </html>

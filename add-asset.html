@@ -20,8 +20,9 @@
 
   <main class="container page-section">
     <section class="card form-card">
-      <h1>Handmatig asset toevoegen</h1>
-      <p class="subtitle">Frontend-demoformulier voor de MVP. In fase 2 koppelen we deze invoer aan backend en validatie.</p>
+      <span class="eyebrow">Handmatige invoer · frontend MVP</span>
+      <h1>Nieuwe asset toevoegen</h1>
+      <p class="subtitle">Logische invoerflow met conditionele velden per asset class. Opslag en validatie komen in de volgende fase.</p>
 
       <form id="asset-form">
         <div class="form-grid">
@@ -34,17 +35,12 @@
             <label for="asset-class">Asset class</label>
             <select id="asset-class" name="asset_class" required>
               <option value="">Kies een class</option>
-              <option>aandelen</option>
-              <option>bonds</option>
-              <option>commodity’s</option>
-              <option>vastgoed</option>
-              <option>crypto</option>
+              <option value="aandelen">aandelen</option>
+              <option value="bonds">bonds</option>
+              <option value="commodity’s">commodity’s</option>
+              <option value="vastgoed">vastgoed</option>
+              <option value="crypto">crypto</option>
             </select>
-          </div>
-
-          <div class="form-group">
-            <label for="quantity">Aantal / omvang</label>
-            <input id="quantity" name="quantity" type="number" step="0.0001" min="0" placeholder="0" required />
           </div>
 
           <div class="form-group">
@@ -52,25 +48,73 @@
             <input id="value" name="value" type="number" step="0.01" min="0" placeholder="0.00" required />
           </div>
 
+          <div class="form-group">
+            <label for="acquired-at">Aankoopdatum</label>
+            <input id="acquired-at" name="acquired_at" type="date" />
+          </div>
+
           <div class="form-group full">
             <label for="notes">Notitie</label>
-            <textarea id="notes" name="notes" placeholder="Bijv. lange termijn positie, herkomst, strategie."></textarea>
+            <textarea id="notes" name="notes" placeholder="Strategie, risico, oorsprong of aanvullende context."></textarea>
           </div>
         </div>
 
+        <fieldset class="class-fields" data-class="aandelen">
+          <legend>Aandelen details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="stock-ticker">Ticker</label><input id="stock-ticker" name="stock_ticker" type="text" placeholder="Bijv. VWRL" /></div>
+            <div class="form-group"><label for="stock-sector">Sector</label><input id="stock-sector" name="stock_sector" type="text" placeholder="Bijv. Technologie" /></div>
+            <div class="form-group full"><label for="stock-region">Regio</label><input id="stock-region" name="stock_region" type="text" placeholder="Bijv. Wereldwijd / Europa / VS" /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="class-fields" data-class="bonds">
+          <legend>Bonds details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="bond-coupon">Coupon (%)</label><input id="bond-coupon" name="bond_coupon" type="number" step="0.01" min="0" placeholder="Bijv. 3.50" /></div>
+            <div class="form-group"><label for="bond-maturity">Looptijd (einddatum)</label><input id="bond-maturity" name="bond_maturity" type="date" /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="class-fields" data-class="commodity’s">
+          <legend>Commodity’s details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="commodity-type">Type</label><input id="commodity-type" name="commodity_type" type="text" placeholder="Bijv. goud, olie, zilver" /></div>
+            <div class="form-group"><label for="commodity-exposure">Exposure-vorm</label><input id="commodity-exposure" name="commodity_exposure" type="text" placeholder="Bijv. ETF, future, ETC" /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="class-fields" data-class="vastgoed">
+          <legend>Vastgoed details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="realestate-location">Locatie</label><input id="realestate-location" name="realestate_location" type="text" placeholder="Bijv. Rotterdam" /></div>
+            <div class="form-group"><label for="realestate-value">Geschatte waarde (€)</label><input id="realestate-value" name="realestate_value" type="number" step="0.01" min="0" placeholder="0.00" /></div>
+            <div class="form-group full"><label for="realestate-rent">Huurinkomsten per maand (€)</label><input id="realestate-rent" name="realestate_rent" type="number" step="0.01" min="0" placeholder="0.00" /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="class-fields" data-class="crypto">
+          <legend>Crypto details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="crypto-token">Token</label><input id="crypto-token" name="crypto_token" type="text" placeholder="Bijv. BTC, ETH" /></div>
+            <div class="form-group"><label for="crypto-network">Netwerk</label><input id="crypto-network" name="crypto_network" type="text" placeholder="Bijv. Bitcoin, Ethereum" /></div>
+            <div class="form-group full"><label for="crypto-storage">Opslaglocatie</label><input id="crypto-storage" name="crypto_storage" type="text" placeholder="Bijv. hardware wallet / exchange" /></div>
+          </div>
+        </fieldset>
+
         <div class="form-actions">
-          <span class="form-hint">Dit formulier slaat nog niets permanent op (demo).</span>
+          <span class="form-hint">Alle invoer is tijdelijk en wordt nog niet opgeslagen.</span>
           <button class="button" type="submit">Asset toevoegen</button>
         </div>
       </form>
 
       <div class="notice" id="success-notice">
-        Demo asset toegevoegd. In de volgende fase koppelen we dit aan de portfolio-database.
+        Demo asset toegevoegd. In de volgende fase koppelen we dit formulier aan API + database.
       </div>
     </section>
   </main>
 
-  <footer class="footer">Frontend-only MVP • klaar voor uitbreiding met API en opslag.</footer>
+  <footer class="footer">Frontend-only MVP • uitbreidbaar naar echte dataopslag en importkoppelingen.</footer>
 
   <script src="ui.js"></script>
 </body>
