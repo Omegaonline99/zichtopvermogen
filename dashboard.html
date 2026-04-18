@@ -65,17 +65,33 @@
       </article>
 
       <article class="card">
-        <h2>Spreiding & concentratierisico (demo)</h2>
+        <h2>Spreiding & concentratierisico</h2>
         <div class="risk-block">
-          <p><strong>Top 3 bezittingen:</strong> 58,6% van totaal vermogen.</p>
-          <p class="risk-note">Interpretatie: matig concentratierisico. Extra spreiding mogelijk via defensieve assets.</p>
+          <p><strong>Spreidingsindicator:</strong> <span id="diversification-indicator" class="status-pill neutral">Berekenen...</span></p>
+          <p class="risk-note" id="diversification-note">Nog geen analyse beschikbaar.</p>
         </div>
-        <ul class="mini-list">
-          <li><span>VWRL ETF</span><strong>€ 12.500</strong></li>
-          <li><span>Appartement Rotterdam</span><strong>€ 40.000</strong></li>
-          <li><span>Bitcoin</span><strong>€ 9.200</strong></li>
-        </ul>
+
+        <div class="insight-grid">
+          <div class="insight-item">
+            <span class="insight-label">Grootste positie</span>
+            <strong id="largest-position">-</strong>
+          </div>
+          <div class="insight-item">
+            <span class="insight-label">Kleinste positie</span>
+            <strong id="smallest-position">-</strong>
+          </div>
+          <div class="insight-item">
+            <span class="insight-label">Meest voorkomende class</span>
+            <strong id="most-common-class">-</strong>
+          </div>
+        </div>
       </article>
+    </section>
+
+    <section class="card" style="margin-top: 1rem;">
+      <h2>Asset class overzicht</h2>
+      <p class="subtitle" style="margin-bottom: 0.8rem;">Totale waarde en percentage per categorie op basis van demo + jouw invoer.</p>
+      <div class="class-summary-grid" id="class-summary-grid"></div>
     </section>
 
     <section class="card" style="margin-top: 1rem;">

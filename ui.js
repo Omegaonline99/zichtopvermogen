@@ -7,6 +7,13 @@ const DEMO_CLASS_TOTALS = {
   crypto: 18500,
 };
 const DEMO_ASSET_COUNT = 12;
+const DEMO_POSITIONS = [
+  { name: "VWRL ETF", assetClass: "aandelen", value: 12500 },
+  { name: "Appartement Rotterdam", assetClass: "vastgoed", value: 40000 },
+  { name: "Bitcoin", assetClass: "crypto", value: 9200 },
+  { name: "NL Staatsobligatie 2031", assetClass: "bonds", value: 6800 },
+  { name: "Goud ETC", assetClass: "commodity’s", value: 2250 },
+];
 
 const formatEuro = (value) =>
   `€ ${Number(value || 0).toLocaleString("nl-NL", {
@@ -157,6 +164,100 @@ const renderAllocation = (classTotals, totalVermogen) => {
   });
 };
 
+
+const renderClassSummaryCards = (classTotals, totalVermogen) => {
+  const container = document.getElementById("class-summary-grid");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  Object.entries(classTotals).forEach(([assetClass, value]) => {
+    const percentage = totalVermogen > 0 ? (value / totalVermogen) * 100 : 0;
+    const card = document.createElement("article");
+    card.className = "class-summary-card";
+    card.innerHTML = `
+      <h4>${mapAssetClassLabel(assetClass)}</h4>
+      <div class="amount">${formatEuro(value)}</div>
+      <div class="percentage">${formatPercentage(percentage)} van totaal</div>
+    `;
+    container.appendChild(card);
+  });
+};
+
+const getDiversificationInfo = (classTotals, totalVermogen) => {
+  const percentages = Object.values(classTotals)
+    .map((value) => (totalVermogen > 0 ? (value / totalVermogen) * 100 : 0))
+    .sort((a, b) => b - a);
+
+  const biggestShare = percentages[0] || 0;
+
+  if (biggestShare <= 40) {
+    return {
+      label: "Goed gespreid",
+      type: "good",
+      note: "Geen enkele asset class domineert sterk; de verdeling is relatief gebalanceerd.",
+    };
+  }
+
+  if (biggestShare <= 60) {
+    return {
+      label: "Redelijk geconcentreerd",
+      type: "medium",
+      note: "Eén class weegt duidelijk zwaarder. Extra spreiding kan het risico verlagen.",
+    };
+  }
+
+  return {
+    label: "Sterk geconcentreerd",
+    type: "high",
+    note: "Een groot deel van het vermogen zit in één class. Spreidingsrisico is verhoogd.",
+  };
+};
+
+const renderInsights = (assets, classTotals, totalVermogen) => {
+  const allPositions = [...DEMO_POSITIONS, ...assets];
+  const largestElement = document.getElementById("largest-position");
+  const smallestElement = document.getElementById("smallest-position");
+  const mostCommonElement = document.getElementById("most-common-class");
+
+  if (!largestElement || !smallestElement || !mostCommonElement) return;
+
+  if (!allPositions.length) {
+    largestElement.textContent = "-";
+    smallestElement.textContent = "-";
+    mostCommonElement.textContent = "-";
+    return;
+  }
+
+  const sortedByValue = [...allPositions].sort((a, b) => Number(b.value || 0) - Number(a.value || 0));
+  const largest = sortedByValue[0];
+  const smallest = sortedByValue[sortedByValue.length - 1];
+
+  largestElement.textContent = `${largest.name} (${formatEuro(largest.value)})`;
+  smallestElement.textContent = `${smallest.name} (${formatEuro(smallest.value)})`;
+
+  const classCounts = allPositions.reduce((acc, item) => {
+    const key = normalizeAssetClass(item.assetClass);
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+
+  const mostCommonEntry = Object.entries(classCounts).sort((a, b) => b[1] - a[1])[0];
+  mostCommonElement.textContent = mostCommonEntry
+    ? `${mapAssetClassLabel(mostCommonEntry[0])} (${mostCommonEntry[1]} posities)`
+    : "-";
+
+  const indicator = document.getElementById("diversification-indicator");
+  const note = document.getElementById("diversification-note");
+  if (!indicator || !note) return;
+
+  const diversification = getDiversificationInfo(classTotals, totalVermogen);
+  indicator.textContent = diversification.label;
+  indicator.classList.remove("good", "medium", "high", "neutral");
+  indicator.classList.add(diversification.type);
+  note.textContent = diversification.note;
+};
+
 const renderUserAssetsTable = (assets) => {
   const tableBody = document.getElementById("user-assets-body");
   const emptyState = document.getElementById("assets-empty-state");
@@ -238,6 +339,8 @@ const renderDashboard = () => {
   if (userCountElement) userCountElement.textContent = String(assets.length);
 
   renderAllocation(classTotals, totalVermogen);
+  renderClassSummaryCards(classTotals, totalVermogen);
+  renderInsights(assets, classTotals, totalVermogen);
   renderUserAssetsTable(assets);
 };
 

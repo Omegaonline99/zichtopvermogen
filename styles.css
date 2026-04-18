@@ -411,6 +411,84 @@ textarea {
 }
 
 
+
+.insight-grid {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.insight-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+  background: #fcfdff;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.insight-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.status-pill {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.79rem;
+  font-weight: 600;
+}
+
+.status-pill.good {
+  color: #065f46;
+  background: #d1fae5;
+}
+
+.status-pill.medium {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.status-pill.high {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.status-pill.neutral {
+  color: #334155;
+  background: #e2e8f0;
+}
+
+.class-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.class-summary-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fbfdff;
+  padding: 0.75rem;
+}
+
+.class-summary-card h4 {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.class-summary-card .amount {
+  margin-top: 0.35rem;
+  font-weight: 700;
+}
+
+.class-summary-card .percentage {
+  margin-top: 0.12rem;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
 .empty-state {
   border: 1px dashed #cbd5e1;
   background: #f8fafc;
