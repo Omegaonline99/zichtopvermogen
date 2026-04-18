@@ -3,166 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard - Portfolio Platform</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-    }
-
-    header {
-      background: #111827;
-      color: white;
-      padding: 20px 32px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 32px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-    }
-
-    .card h2 {
-      margin-top: 0;
-      font-size: 18px;
-    }
-
-    .value {
-      font-size: 28px;
-      font-weight: bold;
-      margin-top: 12px;
-    }
-
-    .table-card {
-      background: white;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 14px 10px;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    th {
-      font-size: 14px;
-      color: #6b7280;
-    }
-
-    a.button {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 12px 18px;
-      background: #111827;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-    }
-  </style>
+  <title>Zicht op Vermogen - Demo dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>Portfolio Platform Dashboard</h1>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">Zicht op Vermogen</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a class="active" href="dashboard.html">Demo dashboard</a>
+        <a href="add-asset.html">Asset toevoegen</a>
+      </nav>
+    </div>
   </header>
 
-  <div class="container">
-    <div class="grid">
-      <div class="card">
-        <h2>Totaal vermogen</h2>
-        <div class="value">€ 124.500</div>
-      </div>
-      <div class="card">
-        <h2>Aandelen</h2>
-        <div class="value">€ 52.000</div>
-      </div>
-      <div class="card">
-        <h2>Crypto</h2>
-        <div class="value">€ 18.500</div>
-      </div>
-      <div class="card">
-        <h2>Vastgoed</h2>
-        <div class="value">€ 40.000</div>
-      </div>
-      <div class="card">
-        <h2>Bonds</h2>
-        <div class="value">€ 8.000</div>
-      </div>
-      <div class="card">
-        <h2>Commodity’s</h2>
-        <div class="value">€ 6.000</div>
-      </div>
-    </div>
+  <main class="container page-section">
+    <section>
+      <h1>Portfolio dashboard (demo)</h1>
+      <p class="subtitle">Realtime data volgt in latere fases. Deze pagina toont de beoogde UI-structuur.</p>
 
-    <div class="table-card">
+      <div class="kpi-grid">
+        <article class="card"><h3>Totaal vermogen</h3><div class="value">€ 124.500</div></article>
+        <article class="card"><h3>Aandelen</h3><div class="value">€ 52.000</div></article>
+        <article class="card"><h3>Bonds</h3><div class="value">€ 8.000</div></article>
+        <article class="card"><h3>Commodity’s</h3><div class="value">€ 6.000</div></article>
+        <article class="card"><h3>Vastgoed</h3><div class="value">€ 40.000</div></article>
+        <article class="card"><h3>Crypto</h3><div class="value">€ 18.500</div></article>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top: 1rem;">
       <h2>Overzicht bezittingen</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Naam</th>
-            <th>Categorie</th>
-            <th>Waarde</th>
-            <th>Opmerking</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>VWRL ETF</td>
-            <td>Aandelen</td>
-            <td>€ 12.500</td>
-            <td>Wereldwijde spreiding</td>
-          </tr>
-          <tr>
-            <td>Bitcoin</td>
-            <td>Crypto</td>
-            <td>€ 9.200</td>
-            <td>Lange termijn</td>
-          </tr>
-          <tr>
-            <td>Goud ETF</td>
-            <td>Commodity’s</td>
-            <td>€ 3.000</td>
-            <td>Bescherming tegen onzekerheid</td>
-          </tr>
-          <tr>
-            <td>Obligatiefonds</td>
-            <td>Bonds</td>
-            <td>€ 8.000</td>
-            <td>Defensief deel</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th>Class</th>
+              <th>Waarde</th>
+              <th>Verdeling</th>
+              <th>Notitie</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>VWRL ETF</td><td>Aandelen</td><td>€ 12.500</td><td>10.0%</td><td>Core positie</td></tr>
+            <tr><td>Bitcoin</td><td>Crypto</td><td>€ 9.200</td><td>7.4%</td><td>Lange termijn</td></tr>
+            <tr><td>Goud ETF</td><td>Commodity’s</td><td>€ 3.000</td><td>2.4%</td><td>Risicospreiding</td></tr>
+            <tr><td>Obligatiefonds</td><td>Bonds</td><td>€ 8.000</td><td>6.4%</td><td>Defensieve laag</td></tr>
+            <tr><td>REIT Europe</td><td>Vastgoed</td><td>€ 15.000</td><td>12.1%</td><td>Inkomensfocus</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 
-      <a class="button" href="index.html">Terug naar home</a>
-    </div>
-  </div>
+  <footer class="footer">Demo data • nog geen brokerkoppelingen of backend-logica.</footer>
 </body>
 </html>
