@@ -27,8 +27,8 @@
       <div class="kpi-grid">
         <article class="card"><h3>Totaal vermogen</h3><div class="value" id="total-vermogen">€ 124.500</div></article>
         <article class="card"><h3>Maandmutatie</h3><div class="value positive">+ € 2.140</div></article>
-        <article class="card"><h3>Aantal bezittingen</h3><div class="value" id="asset-count">12</div></article>
-        <article class="card"><h3>Liquiditeit</h3><div class="value">€ 7.600</div></article>
+        <article class="card"><h3>Totaal assets</h3><div class="value" id="asset-count">12</div></article>
+        <article class="card"><h3>Jouw toegevoegde assets</h3><div class="value" id="user-asset-count">0</div></article>
       </div>
     </section>
 
@@ -79,7 +79,7 @@
     </section>
 
     <section class="card" style="margin-top: 1rem;">
-      <h2>Recente bezittingen</h2>
+      <h2>Recente demo-bezittingen</h2>
       <div class="table-wrapper">
         <table>
           <thead>
@@ -91,12 +91,38 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody id="recent-assets-body">
+          <tbody>
             <tr><td>16-04-2026</td><td>iShares MSCI World</td><td>Aandelen</td><td>€ 4.600</td><td><span class="status-chip">Toegevoegd</span></td></tr>
             <tr><td>14-04-2026</td><td>Ethereum</td><td>Crypto</td><td>€ 3.150</td><td><span class="status-chip">Geüpdatet</span></td></tr>
             <tr><td>12-04-2026</td><td>Goud ETC</td><td>Commodity’s</td><td>€ 2.250</td><td><span class="status-chip">Toegevoegd</span></td></tr>
             <tr><td>10-04-2026</td><td>NL Staatsobligatie 2031</td><td>Bonds</td><td>€ 6.800</td><td><span class="status-chip">Geüpdatet</span></td></tr>
           </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top: 1rem;">
+      <h2>Jouw toegevoegde assets</h2>
+      <p class="subtitle" style="margin-bottom: 0.8rem;">Deze lijst komt uit localStorage en blijft beschikbaar na refresh.</p>
+
+      <div id="dashboard-message" class="notice"></div>
+
+      <div class="empty-state" id="assets-empty-state">
+        Je hebt nog geen assets toegevoegd. Voeg je eerste asset toe via het formulier.
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Asset</th>
+              <th>Class</th>
+              <th>Waarde</th>
+              <th>Actie</th>
+            </tr>
+          </thead>
+          <tbody id="user-assets-body"></tbody>
         </table>
       </div>
     </section>

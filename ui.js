@@ -16,6 +16,21 @@ const formatEuro = (value) =>
 
 const formatPercentage = (value) => `${value.toFixed(1).replace(".", ",")}%`;
 
+const showMessage = (element, text, type) => {
+  if (!element) return;
+  element.textContent = text;
+  element.classList.remove("success", "error");
+  if (type) element.classList.add(type);
+  element.style.display = "block";
+};
+
+const clearMessage = (element) => {
+  if (!element) return;
+  element.textContent = "";
+  element.classList.remove("success", "error");
+  element.style.display = "none";
+};
+
 const getAssetsFromStorage = () => {
   try {
     const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
@@ -53,10 +68,17 @@ const toggleClassFields = () => {
   });
 };
 
+const validateAssetForm = ({ name, assetClass, value }) => {
+  if (!name) return "Naam bezit is verplicht.";
+  if (!assetClass) return "Asset class is verplicht.";
+  if (!Number.isFinite(value) || value <= 0) return "Waarde moet een geldig positief getal zijn.";
+  return "";
+};
+
 const handleAssetForm = () => {
   const form = document.getElementById("asset-form");
   const assetClassSelect = document.getElementById("asset-class");
-  const successNotice = document.getElementById("success-notice");
+  const formMessage = document.getElementById("form-message");
 
   if (!form || !assetClassSelect) return;
 
@@ -65,17 +87,16 @@ const handleAssetForm = () => {
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    clearMessage(formMessage);
 
     const formData = new FormData(form);
     const name = String(formData.get("name") || "").trim();
     const assetClass = normalizeAssetClass(formData.get("asset_class"));
     const value = Number(formData.get("value") || 0);
 
-    if (!name || !assetClass || Number.isNaN(value) || value <= 0) {
-      if (successNotice) {
-        successNotice.style.display = "block";
-        successNotice.textContent = "Vul minimaal naam, asset class en een geldige waarde in.";
-      }
+    const validationError = validateAssetForm({ name, assetClass, value });
+    if (validationError) {
+      showMessage(formMessage, validationError, "error");
       return;
     }
 
@@ -109,34 +130,11 @@ const handleAssetForm = () => {
 
     form.reset();
     toggleClassFields();
-
-    if (successNotice) {
-      successNotice.style.display = "block";
-      successNotice.textContent = "Asset toegevoegd en lokaal opgeslagen. Bekijk het dashboard voor de update.";
-    }
+    showMessage(formMessage, "Asset succesvol toegevoegd en lokaal opgeslagen.", "success");
   });
 };
 
-const renderDashboard = () => {
-  const dashboardPage = document.getElementById("dashboard-page");
-  if (!dashboardPage) return;
-
-  const assets = getAssetsFromStorage();
-  const classTotals = { ...DEMO_CLASS_TOTALS };
-
-  assets.forEach((asset) => {
-    const normalizedClass = normalizeAssetClass(asset.assetClass);
-    if (!Object.prototype.hasOwnProperty.call(classTotals, normalizedClass)) return;
-    classTotals[normalizedClass] += Number(asset.value) || 0;
-  });
-
-  const totalVermogen = Object.values(classTotals).reduce((sum, current) => sum + current, 0);
-  const totalElement = document.getElementById("total-vermogen");
-  if (totalElement) totalElement.textContent = formatEuro(totalVermogen);
-
-  const countElement = document.getElementById("asset-count");
-  if (countElement) countElement.textContent = String(DEMO_ASSET_COUNT + assets.length);
-
+const renderAllocation = (classTotals, totalVermogen) => {
   const selectors = {
     aandelen: ["pct-aandelen", "bar-aandelen", "val-aandelen"],
     vastgoed: ["pct-vastgoed", "bar-vastgoed", "val-vastgoed"],
@@ -157,31 +155,92 @@ const renderDashboard = () => {
     if (barElement) barElement.style.width = `${percentage}%`;
     if (valElement) valElement.textContent = formatEuro(value);
   });
+};
 
-  const tableBody = document.getElementById("recent-assets-body");
-  if (!tableBody) return;
+const renderUserAssetsTable = (assets) => {
+  const tableBody = document.getElementById("user-assets-body");
+  const emptyState = document.getElementById("assets-empty-state");
+  if (!tableBody || !emptyState) return;
 
-  if (!assets.length) return;
+  tableBody.innerHTML = "";
+
+  if (!assets.length) {
+    emptyState.style.display = "block";
+    return;
+  }
+
+  emptyState.style.display = "none";
 
   const sortedAssets = [...assets].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   sortedAssets.forEach((asset) => {
     const row = document.createElement("tr");
     const date = new Date(asset.createdAt);
-    const formattedDate = Number.isNaN(date.getTime())
-      ? "Onbekend"
-      : date.toLocaleDateString("nl-NL");
+    const formattedDate = Number.isNaN(date.getTime()) ? "Onbekend" : date.toLocaleDateString("nl-NL");
 
     row.innerHTML = `
       <td>${formattedDate}</td>
       <td>${asset.name}</td>
       <td>${mapAssetClassLabel(normalizeAssetClass(asset.assetClass))}</td>
       <td>${formatEuro(asset.value)}</td>
-      <td><span class="status-chip">Nieuw</span></td>
+      <td><button class="button danger small" data-delete-id="${asset.id}">Verwijderen</button></td>
     `;
-    tableBody.prepend(row);
+
+    tableBody.appendChild(row);
   });
+};
+
+const handleDeleteAsset = (assetId) => {
+  const assets = getAssetsFromStorage();
+  const updatedAssets = assets.filter((asset) => String(asset.id) !== String(assetId));
+  saveAssetsToStorage(updatedAssets);
+  renderDashboard();
+
+  const dashboardMessage = document.getElementById("dashboard-message");
+  showMessage(dashboardMessage, "Asset verwijderd uit lokale opslag.", "success");
+};
+
+const attachDashboardEvents = () => {
+  const tableBody = document.getElementById("user-assets-body");
+  if (!tableBody) return;
+
+  tableBody.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    const deleteId = target.getAttribute("data-delete-id");
+    if (!deleteId) return;
+    handleDeleteAsset(deleteId);
+  });
+};
+
+const renderDashboard = () => {
+  const dashboardPage = document.getElementById("dashboard-page");
+  if (!dashboardPage) return;
+
+  const assets = getAssetsFromStorage();
+  const classTotals = { ...DEMO_CLASS_TOTALS };
+
+  assets.forEach((asset) => {
+    const normalizedClass = normalizeAssetClass(asset.assetClass);
+    if (!Object.prototype.hasOwnProperty.call(classTotals, normalizedClass)) return;
+    classTotals[normalizedClass] += Number(asset.value) || 0;
+  });
+
+  const totalVermogen = Object.values(classTotals).reduce((sum, current) => sum + current, 0);
+  const totalElement = document.getElementById("total-vermogen");
+  if (totalElement) totalElement.textContent = formatEuro(totalVermogen);
+
+  const totalCountElement = document.getElementById("asset-count");
+  if (totalCountElement) totalCountElement.textContent = String(DEMO_ASSET_COUNT + assets.length);
+
+  const userCountElement = document.getElementById("user-asset-count");
+  if (userCountElement) userCountElement.textContent = String(assets.length);
+
+  renderAllocation(classTotals, totalVermogen);
+  renderUserAssetsTable(assets);
 };
 
 handleAssetForm();
 renderDashboard();
+attachDashboardEvents();
