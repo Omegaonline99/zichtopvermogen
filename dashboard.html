@@ -18,16 +18,16 @@
     </div>
   </header>
 
-  <main class="container page-section">
+  <main class="container page-section" id="dashboard-page">
     <section>
       <span class="eyebrow">Persoonlijk dashboard · demo data</span>
       <h1>Portfolio-overzicht</h1>
       <p class="subtitle">Frontend-only prototype met logische structuur voor vermogensbeheer en latere data-integraties.</p>
 
       <div class="kpi-grid">
-        <article class="card"><h3>Totaal vermogen</h3><div class="value">€ 124.500</div></article>
+        <article class="card"><h3>Totaal vermogen</h3><div class="value" id="total-vermogen">€ 124.500</div></article>
         <article class="card"><h3>Maandmutatie</h3><div class="value positive">+ € 2.140</div></article>
-        <article class="card"><h3>Aantal bezittingen</h3><div class="value">12</div></article>
+        <article class="card"><h3>Aantal bezittingen</h3><div class="value" id="asset-count">12</div></article>
         <article class="card"><h3>Liquiditeit</h3><div class="value">€ 7.600</div></article>
       </div>
     </section>
@@ -36,25 +36,30 @@
       <article class="card">
         <h2>Verdeling per asset class</h2>
         <div class="allocation-list">
-          <div class="allocation-item">
-            <div class="allocation-head"><span>Aandelen</span><strong>41,8%</strong></div>
-            <div class="allocation-bar"><span style="width: 41.8%"></span></div>
+          <div class="allocation-item" data-class="aandelen">
+            <div class="allocation-head"><span>Aandelen</span><strong id="pct-aandelen">41,8%</strong></div>
+            <div class="allocation-bar"><span id="bar-aandelen" style="width: 41.8%"></span></div>
+            <small id="val-aandelen">€ 52.000</small>
           </div>
-          <div class="allocation-item">
-            <div class="allocation-head"><span>Vastgoed</span><strong>32,1%</strong></div>
-            <div class="allocation-bar"><span style="width: 32.1%"></span></div>
+          <div class="allocation-item" data-class="vastgoed">
+            <div class="allocation-head"><span>Vastgoed</span><strong id="pct-vastgoed">32,1%</strong></div>
+            <div class="allocation-bar"><span id="bar-vastgoed" style="width: 32.1%"></span></div>
+            <small id="val-vastgoed">€ 40.000</small>
           </div>
-          <div class="allocation-item">
-            <div class="allocation-head"><span>Crypto</span><strong>14,9%</strong></div>
-            <div class="allocation-bar"><span style="width: 14.9%"></span></div>
+          <div class="allocation-item" data-class="crypto">
+            <div class="allocation-head"><span>Crypto</span><strong id="pct-crypto">14,9%</strong></div>
+            <div class="allocation-bar"><span id="bar-crypto" style="width: 14.9%"></span></div>
+            <small id="val-crypto">€ 18.500</small>
           </div>
-          <div class="allocation-item">
-            <div class="allocation-head"><span>Bonds</span><strong>6,4%</strong></div>
-            <div class="allocation-bar"><span style="width: 6.4%"></span></div>
+          <div class="allocation-item" data-class="bonds">
+            <div class="allocation-head"><span>Bonds</span><strong id="pct-bonds">6,4%</strong></div>
+            <div class="allocation-bar"><span id="bar-bonds" style="width: 6.4%"></span></div>
+            <small id="val-bonds">€ 8.000</small>
           </div>
-          <div class="allocation-item">
-            <div class="allocation-head"><span>Commodity’s</span><strong>4,8%</strong></div>
-            <div class="allocation-bar"><span style="width: 4.8%"></span></div>
+          <div class="allocation-item" data-class="commodity’s">
+            <div class="allocation-head"><span>Commodity’s</span><strong id="pct-commodity">4,8%</strong></div>
+            <div class="allocation-bar"><span id="bar-commodity" style="width: 4.8%"></span></div>
+            <small id="val-commodity">€ 6.000</small>
           </div>
         </div>
       </article>
@@ -86,7 +91,7 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="recent-assets-body">
             <tr><td>16-04-2026</td><td>iShares MSCI World</td><td>Aandelen</td><td>€ 4.600</td><td><span class="status-chip">Toegevoegd</span></td></tr>
             <tr><td>14-04-2026</td><td>Ethereum</td><td>Crypto</td><td>€ 3.150</td><td><span class="status-chip">Geüpdatet</span></td></tr>
             <tr><td>12-04-2026</td><td>Goud ETC</td><td>Commodity’s</td><td>€ 2.250</td><td><span class="status-chip">Toegevoegd</span></td></tr>
@@ -98,5 +103,6 @@
   </main>
 
   <footer class="footer">Demo data • klaar voor latere koppeling met portfolio-API en waarderingsengine.</footer>
+  <script src="ui.js"></script>
 </body>
 </html>
