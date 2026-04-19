@@ -3,166 +3,186 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard - Portfolio Platform</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-    }
-
-    header {
-      background: #111827;
-      color: white;
-      padding: 20px 32px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 32px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-    }
-
-    .card h2 {
-      margin-top: 0;
-      font-size: 18px;
-    }
-
-    .value {
-      font-size: 28px;
-      font-weight: bold;
-      margin-top: 12px;
-    }
-
-    .table-card {
-      background: white;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 14px 10px;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    th {
-      font-size: 14px;
-      color: #6b7280;
-    }
-
-    a.button {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 12px 18px;
-      background: #111827;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-    }
-  </style>
+  <title>Zicht op Vermogen - Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>Portfolio Platform Dashboard</h1>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">Zicht op Vermogen</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a class="active" href="dashboard.html">Dashboard</a>
+        <a href="add-asset.html">Asset toevoegen</a>
+      </nav>
+    </div>
   </header>
 
-  <div class="container">
-    <div class="grid">
-      <div class="card">
-        <h2>Totaal vermogen</h2>
-        <div class="value">€ 124.500</div>
+  <main class="container page-section" id="dashboard-page">
+    <section class="card user-panel">
+      <div>
+        <h2>Account</h2>
+        <p class="subtitle" style="margin:0.35rem 0 0;">Ingelogd als: <strong id="active-user-email">Niet ingelogd</strong></p>
       </div>
-      <div class="card">
-        <h2>Aandelen</h2>
-        <div class="value">€ 52.000</div>
+      <div class="user-controls">
+        <input id="auth-email" type="email" placeholder="E-mailadres" />
+        <input id="auth-password" type="password" placeholder="Wachtwoord" />
       </div>
-      <div class="card">
-        <h2>Crypto</h2>
-        <div class="value">€ 18.500</div>
+      <div class="button-group">
+        <button class="button" id="login-button" type="button">Inloggen</button>
+        <button class="button secondary" id="register-button" type="button">Registreren</button>
+        <button class="button secondary" id="logout-button" type="button">Uitloggen</button>
       </div>
-      <div class="card">
-        <h2>Vastgoed</h2>
-        <div class="value">€ 40.000</div>
-      </div>
-      <div class="card">
-        <h2>Bonds</h2>
-        <div class="value">€ 8.000</div>
-      </div>
-      <div class="card">
-        <h2>Commodity’s</h2>
-        <div class="value">€ 6.000</div>
-      </div>
-    </div>
+      <div id="auth-message" class="notice"></div>
+    </section>
 
-    <div class="table-card">
-      <h2>Overzicht bezittingen</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Naam</th>
-            <th>Categorie</th>
-            <th>Waarde</th>
-            <th>Opmerking</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>VWRL ETF</td>
-            <td>Aandelen</td>
-            <td>€ 12.500</td>
-            <td>Wereldwijde spreiding</td>
-          </tr>
-          <tr>
-            <td>Bitcoin</td>
-            <td>Crypto</td>
-            <td>€ 9.200</td>
-            <td>Lange termijn</td>
-          </tr>
-          <tr>
-            <td>Goud ETF</td>
-            <td>Commodity’s</td>
-            <td>€ 3.000</td>
-            <td>Bescherming tegen onzekerheid</td>
-          </tr>
-          <tr>
-            <td>Obligatiefonds</td>
-            <td>Bonds</td>
-            <td>€ 8.000</td>
-            <td>Defensief deel</td>
-          </tr>
-        </tbody>
-      </table>
+    <section class="card" id="auth-start-screen" style="display:none; margin-top:1rem;">
+      <h2>Log in om je portfolio te zien</h2>
+      <p class="subtitle">Je bent nog niet ingelogd. Registreer een account of log in met je bestaande gegevens.</p>
+    </section>
 
-      <a class="button" href="index.html">Terug naar home</a>
+    <div id="portfolio-content">
+      <section>
+        <span class="eyebrow">Persoonlijk dashboard</span>
+        <h1>Portfolio-overzicht</h1>
+        <p class="subtitle">Realtime op basis van jouw opgeslagen assets in Supabase.</p>
+
+        <div class="kpi-grid">
+          <article class="card"><h3>Totaal vermogen</h3><div class="value" id="total-vermogen">€ 0</div></article>
+          <article class="card"><h3>Aantal assets</h3><div class="value" id="asset-count">0</div></article>
+          <article class="card"><h3>Gefilterde assets</h3><div class="value" id="user-asset-count">0</div></article>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top: 1rem;">
+        <h2>Visuele allocatie per categorie</h2>
+        <p class="subtitle" style="margin-bottom:0.8rem;">Lengte van de balk geeft het percentage van het totale vermogen weer.</p>
+        <div id="allocation-visual-list" class="visual-allocation-list"></div>
+
+        <div class="concentration-grid">
+          <div class="concentration-item"><span>Grootste asset</span><strong id="largest-asset-summary">-</strong></div>
+          <div class="concentration-item"><span>Grootste categorie</span><strong id="largest-category-summary">-</strong></div>
+          <div class="concentration-item"><span>Concentratie</span><strong id="largest-category-concentration">-</strong></div>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top: 1rem;">
+        <h2>Jouw assets</h2>
+        <p class="subtitle" style="margin-bottom: 0.8rem;">Deze lijst wordt rechtstreeks uit de database geladen.</p>
+
+        <div class="toolbar-row">
+          <div class="toolbar-group">
+            <label for="asset-filter-class">Filter op class</label>
+            <select id="asset-filter-class">
+              <option value="all">Alle classes</option>
+              <option value="aandelen">Aandelen</option>
+              <option value="bonds">Bonds</option>
+              <option value="commodity’s">Commodity’s</option>
+              <option value="vastgoed">Vastgoed</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </div>
+
+          <div class="toolbar-group">
+            <label for="asset-sort">Sorteer op</label>
+            <select id="asset-sort">
+              <option value="recent">Recent toegevoegd</option>
+              <option value="name">Naam</option>
+              <option value="value_desc">Hoogste waarde</option>
+              <option value="value_asc">Laagste waarde</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="dashboard-message" class="notice"></div>
+
+        <div class="empty-state" id="assets-empty-state">
+          Je hebt nog geen assets. <a href="add-asset.html" class="button secondary small">Voeg je eerste asset toe</a>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Asset</th>
+                <th>Class</th>
+                <th>Waarde</th>
+                <th>Winst/Verlies</th>
+                <th>Actie</th>
+              </tr>
+            </thead>
+            <tbody id="user-assets-body"></tbody>
+          </table>
+        </div>
+
+        <div class="edit-panel" id="edit-panel" style="display:none;">
+          <h3>Asset bewerken</h3>
+          <form id="edit-asset-form" class="form-grid">
+            <input type="hidden" id="edit-asset-id" />
+            <div class="form-group">
+              <label for="edit-name">Naam</label>
+              <input id="edit-name" type="text" required />
+            </div>
+            <div class="form-group">
+              <label for="edit-class">Asset class</label>
+              <select id="edit-class" required>
+                <option value="aandelen">Aandelen</option>
+                <option value="bonds">Bonds</option>
+                <option value="commodity’s">Commodity’s</option>
+                <option value="vastgoed">Vastgoed</option>
+                <option value="crypto">Crypto</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-value">Waarde (€)</label>
+              <input id="edit-value" type="number" step="0.01" min="0" required />
+            </div>
+            <div class="form-group">
+              <label for="edit-purchase-value">Aankoopwaarde (€)</label>
+              <input id="edit-purchase-value" type="number" step="0.01" min="0" />
+            </div>
+            <div class="form-group">
+              <label for="edit-acquired-at">Aankoopdatum</label>
+              <input id="edit-acquired-at" type="date" />
+            </div>
+            <div class="form-group full">
+              <label for="edit-notes">Notities</label>
+              <textarea id="edit-notes"></textarea>
+            </div>
+            <div class="form-actions full">
+              <button class="button" type="submit">Opslaan</button>
+              <button class="button secondary" type="button" id="cancel-edit-button">Annuleren</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="detail-panel" id="asset-detail-panel" style="display:none;">
+          <div class="detail-header">
+            <h3 id="detail-name">Asset detail</h3>
+            <button class="button secondary small" type="button" id="close-detail-button">Sluiten</button>
+          </div>
+          <div class="detail-grid">
+            <div><span class="detail-label">Categorie</span><strong id="detail-class">-</strong></div>
+            <div><span class="detail-label">Huidige waarde</span><strong id="detail-value">-</strong></div>
+            <div><span class="detail-label">Aankoopwaarde</span><strong id="detail-purchase-value">-</strong></div>
+            <div><span class="detail-label">Aankoopdatum</span><strong id="detail-purchase-date">-</strong></div>
+            <div><span class="detail-label">Winst/Verlies (€)</span><strong id="detail-pnl-eur">-</strong></div>
+            <div><span class="detail-label">Winst/Verlies (%)</span><strong id="detail-pnl-pct">-</strong></div>
+          </div>
+          <div class="detail-notes">
+            <span class="detail-label">Notities</span>
+            <p id="detail-notes">Niet beschikbaar</p>
+          </div>
+          <div class="detail-extra" id="detail-extra-fields"></div>
+        </div>
+      </section>
     </div>
-  </div>
+  </main>
+
+  <footer class="footer">Supabase-backed MVP • veilige opslag per gebruiker.</footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="ui.js"></script>
 </body>
 </html>
