@@ -255,6 +255,58 @@ h2 {
   gap: 1rem;
 }
 
+
+.visual-allocation-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.visual-row {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.visual-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+}
+
+.visual-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.visual-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #1d4ed8 0%, #93c5fd 100%);
+}
+
+.concentration-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.concentration-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fbfdff;
+  padding: 0.65rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.concentration-item span {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
 .allocation-list {
   display: grid;
   gap: 0.65rem;
@@ -658,7 +710,8 @@ textarea {
   }
 
   .detail-grid,
-  .detail-extra {
+  .detail-extra,
+  .concentration-grid {
     grid-template-columns: 1fr;
   }
 

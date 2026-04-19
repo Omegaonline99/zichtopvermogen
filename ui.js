@@ -338,6 +338,51 @@ const renderClassSummaryCards = (classTotals, totalVermogen) => {
   });
 };
 
+
+
+const renderVisualAllocation = (classTotals, totalVermogen, userAssets) => {
+  const container = document.getElementById("allocation-visual-list");
+  const largestAssetEl = document.getElementById("largest-asset-summary");
+  const largestCategoryEl = document.getElementById("largest-category-summary");
+  const concentrationEl = document.getElementById("largest-category-concentration");
+  if (!container || !largestAssetEl || !largestCategoryEl || !concentrationEl) return;
+
+  container.innerHTML = "";
+
+  const entries = Object.entries(classTotals).map(([key, value]) => {
+    const percentage = totalVermogen > 0 ? (value / totalVermogen) * 100 : 0;
+    return { key, value, percentage };
+  }).sort((a, b) => b.value - a.value);
+
+  entries.forEach((entry) => {
+    const row = document.createElement("div");
+    row.className = "visual-row";
+    row.innerHTML = `
+      <div class="visual-head">
+        <span>${mapAssetClassLabel(entry.key)}</span>
+        <span>${formatPercentage(entry.percentage)} · ${formatEuro(entry.value)}</span>
+      </div>
+      <div class="visual-bar"><span style="width:${entry.percentage}%"></span></div>
+    `;
+    container.appendChild(row);
+  });
+
+  const combinedAssets = [...DEMO_POSITIONS, ...userAssets];
+  if (!combinedAssets.length) {
+    largestAssetEl.textContent = "Niet beschikbaar";
+    largestCategoryEl.textContent = "Niet beschikbaar";
+    concentrationEl.textContent = "Niet beschikbaar";
+    return;
+  }
+
+  const largestAsset = [...combinedAssets].sort((a, b) => Number(b.value || 0) - Number(a.value || 0))[0];
+  largestAssetEl.textContent = `${largestAsset.name} (${formatEuro(largestAsset.value)})`;
+
+  const largestCategory = entries[0];
+  largestCategoryEl.textContent = largestCategory ? mapAssetClassLabel(largestCategory.key) : "Niet beschikbaar";
+  concentrationEl.textContent = largestCategory ? formatPercentage(largestCategory.percentage) : "Niet beschikbaar";
+};
+
 const renderInsights = (userAssets, classTotals, totalVermogen) => {
   const allPositions = [...DEMO_POSITIONS, ...userAssets];
   const largestElement = document.getElementById("largest-position");
@@ -642,6 +687,7 @@ const renderDashboard = () => {
 
   renderAllocation(classTotals, totalVermogen);
   renderClassSummaryCards(classTotals, totalVermogen);
+  renderVisualAllocation(classTotals, totalVermogen, assets);
   renderInsights(assets, classTotals, totalVermogen);
   renderUserAssetsTable(assets);
 };
