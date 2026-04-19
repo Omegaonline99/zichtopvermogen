@@ -21,21 +21,22 @@
   <main class="container page-section">
     <section class="card user-panel">
       <div>
-        <h2>Actieve gebruiker</h2>
-        <p class="subtitle" style="margin:0.35rem 0 0;">Assets worden toegevoegd voor: <strong id="active-user-name">-</strong></p>
+        <h2>Account</h2>
+        <p class="subtitle" style="margin:0.35rem 0 0;">Ingelogd als: <strong id="active-user-email">Niet ingelogd</strong></p>
       </div>
       <div class="user-controls">
-        <select id="user-select"></select>
-        <button class="button secondary" id="switch-user-button" type="button">Wissel gebruiker</button>
+        <input id="auth-email" type="email" placeholder="E-mailadres" />
+        <input id="auth-password" type="password" placeholder="Wachtwoord" />
       </div>
-      <div class="user-controls">
-        <input id="new-user-name" type="text" placeholder="Nieuwe gebruiker, bijv. Eva" />
-        <button class="button" id="create-user-button" type="button">Gebruiker aanmaken</button>
+      <div class="button-group">
+        <button class="button" id="login-button" type="button">Inloggen</button>
+        <button class="button secondary" id="register-button" type="button">Registreren</button>
+        <button class="button secondary" id="logout-button" type="button">Uitloggen</button>
       </div>
-      <div id="user-message" class="notice"></div>
+      <div id="auth-message" class="notice"></div>
     </section>
 
-    <section class="card" id="user-start-screen" style="display:none; margin-top:1rem;">
+    <section class="card" id="auth-start-screen" style="display:none; margin-top:1rem;">
       <h2>Start met een gebruiker</h2>
       <p class="subtitle">Maak eerst een gebruiker aan of kies een bestaande gebruiker. Daarna kun je assets toevoegen.</p>
     </section>
@@ -140,6 +141,8 @@
 
   <footer class="footer">Frontend-only MVP • uitbreidbaar naar echte dataopslag en importkoppelingen.</footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
   <script src="ui.js"></script>
 </body>
 </html>
