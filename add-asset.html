@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zicht op Vermogen - Asset toevoegen</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">Zicht op Vermogen</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Demo dashboard</a>
+        <a class="active" href="add-asset.html">Asset toevoegen</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-section">
+    <section class="card user-panel">
+      <div>
+        <h2>Actieve gebruiker</h2>
+        <p class="subtitle" style="margin:0.35rem 0 0;">Assets worden toegevoegd voor: <strong id="active-user-name">-</strong></p>
+      </div>
+      <div class="user-controls">
+        <select id="user-select"></select>
+        <button class="button secondary" id="switch-user-button" type="button">Wissel gebruiker</button>
+      </div>
+      <div class="user-controls">
+        <input id="new-user-name" type="text" placeholder="Nieuwe gebruiker, bijv. Eva" />
+        <button class="button" id="create-user-button" type="button">Gebruiker aanmaken</button>
+      </div>
+      <div id="user-message" class="notice"></div>
+    </section>
+
+    <section class="card" id="user-start-screen" style="display:none; margin-top:1rem;">
+      <h2>Start met een gebruiker</h2>
+      <p class="subtitle">Maak eerst een gebruiker aan of kies een bestaande gebruiker. Daarna kun je assets toevoegen.</p>
+    </section>
+
+    <section class="card form-card" id="asset-form-section">
+      <span class="eyebrow">Handmatige invoer · frontend MVP</span>
+      <h1>Nieuwe asset toevoegen</h1>
+      <p class="subtitle">Logische invoerflow met conditionele velden per asset class. Beheer (bewerken, filteren, sorteren) doe je op het dashboard.</p>
+
+      <form id="asset-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Naam bezit</label>
+            <input id="name" name="name" type="text" placeholder="Bijv. VWRL ETF" required />
+          </div>
+
+          <div class="form-group">
+            <label for="asset-class">Asset class</label>
+            <select id="asset-class" name="asset_class" required>
+              <option value="">Kies een class</option>
+              <option value="aandelen">aandelen</option>
+              <option value="bonds">bonds</option>
+              <option value="commodity’s">commodity’s</option>
+              <option value="vastgoed">vastgoed</option>
+              <option value="crypto">crypto</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="value">Huidige waarde (€)</label>
+            <input id="value" name="value" type="number" step="0.01" min="0" placeholder="0.00" required />
+          </div>
+
+          <div class="form-group">
+            <label for="purchase-value">Aankoopwaarde (€)</label>
+            <input id="purchase-value" name="purchase_value" type="number" step="0.01" min="0" placeholder="0.00" />
+          </div>
+
+          <div class="form-group">
+            <label for="acquired-at">Aankoopdatum</label>
+            <input id="acquired-at" name="acquired_at" type="date" />
+          </div>
+
+          <div class="form-group full">
+            <label for="notes">Notitie</label>
+            <textarea id="notes" name="notes" placeholder="Strategie, risico, oorsprong of aanvullende context."></textarea>
+          </div>
+        </div>
+
+        <fieldset class="class-fields" data-class="aandelen">
+          <legend>Aandelen details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="stock-ticker">Ticker</label><input id="stock-ticker" name="stock_ticker" type="text" placeholder="Bijv. VWRL" /></div>
+            <div class="form-group"><label for="stock-sector">Sector</label><input id="stock-sector" name="stock_sector" type="text" placeholder="Bijv. Technologie" /></div>
+            <div class="form-group full"><label for="stock-region">Regio</label><input id="stock-region" name="stock_region" type="text" placeholder="Bijv. Wereldwijd / Europa / VS" /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="class-fields" data-class="bonds">
+          <legend>Bonds details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="bond-coupon">Coupon (%)</label><input id="bond-coupon" name="bond_coupon" type="number" step="0.01" min="0" placeholder="Bijv. 3.50" /></div>
+            <div class="form-group"><label for="bond-maturity">Looptijd (einddatum)</label><input id="bond-maturity" name="bond_maturity" type="date" /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="class-fields" data-class="commodity’s">
+          <legend>Commodity’s details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="commodity-type">Type</label><input id="commodity-type" name="commodity_type" type="text" placeholder="Bijv. goud, olie, zilver" /></div>
+            <div class="form-group"><label for="commodity-exposure">Exposure-vorm</label><input id="commodity-exposure" name="commodity_exposure" type="text" placeholder="Bijv. ETF, future, ETC" /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="class-fields" data-class="vastgoed">
+          <legend>Vastgoed details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="realestate-location">Locatie</label><input id="realestate-location" name="realestate_location" type="text" placeholder="Bijv. Rotterdam" /></div>
+            <div class="form-group"><label for="realestate-value">Geschatte waarde (€)</label><input id="realestate-value" name="realestate_value" type="number" step="0.01" min="0" placeholder="0.00" /></div>
+            <div class="form-group full"><label for="realestate-rent">Huurinkomsten per maand (€)</label><input id="realestate-rent" name="realestate_rent" type="number" step="0.01" min="0" placeholder="0.00" /></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="class-fields" data-class="crypto">
+          <legend>Crypto details</legend>
+          <div class="form-grid">
+            <div class="form-group"><label for="crypto-token">Token</label><input id="crypto-token" name="crypto_token" type="text" placeholder="Bijv. BTC, ETH" /></div>
+            <div class="form-group"><label for="crypto-network">Netwerk</label><input id="crypto-network" name="crypto_network" type="text" placeholder="Bijv. Bitcoin, Ethereum" /></div>
+            <div class="form-group full"><label for="crypto-storage">Opslaglocatie</label><input id="crypto-storage" name="crypto_storage" type="text" placeholder="Bijv. hardware wallet / exchange" /></div>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <span class="form-hint">Alle invoer wordt tijdelijk lokaal in je browser opgeslagen (localStorage).</span>
+          <button class="button" type="submit">Asset toevoegen</button>
+        </div>
+      </form>
+
+      <div class="notice" id="form-message" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="footer">Frontend-only MVP • uitbreidbaar naar echte dataopslag en importkoppelingen.</footer>
+
+  <script src="ui.js"></script>
+</body>
+</html>
