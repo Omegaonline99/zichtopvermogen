@@ -68,10 +68,35 @@
         </aside>
       </div>
     </section>
+  
+    <section class="container page-section" style="padding-top:0;">
+      <section class="card user-panel">
+        <div>
+          <h2>Inloggen of registreren</h2>
+          <p class="subtitle" style="margin:0.35rem 0 0;">Ingelogd als: <strong id="active-user-email">Niet ingelogd</strong></p>
+        </div>
+        <form id="auth-form">
+          <div class="user-controls">
+            <input id="auth-email" type="email" placeholder="E-mailadres" />
+            <input id="auth-password" type="password" placeholder="Wachtwoord" />
+          </div>
+          <div class="button-group" style="margin-top:0.7rem;">
+            <button class="button" data-auth-action="login" type="submit">Inloggen</button>
+            <button class="button secondary" data-auth-action="register" type="submit">Registreren</button>
+            <button class="button secondary" id="logout-button" type="button">Uitloggen</button>
+          </div>
+        </form>
+        <div id="auth-message" class="notice"></div>
+      </section>
+    </section>
+
   </main>
 
   <footer class="footer">
     MVP-interface voor validatie van UX en informatie-architectuur • nog zonder backend of brokerkoppelingen.
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="ui.js"></script>
 </body>
 </html>

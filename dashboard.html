@@ -24,15 +24,17 @@
         <h2>Account</h2>
         <p class="subtitle" style="margin:0.35rem 0 0;">Ingelogd als: <strong id="active-user-email">Niet ingelogd</strong></p>
       </div>
-      <div class="user-controls">
-        <input id="auth-email" type="email" placeholder="E-mailadres" />
-        <input id="auth-password" type="password" placeholder="Wachtwoord" />
-      </div>
-      <div class="button-group">
-        <button class="button" id="login-button" type="button">Inloggen</button>
-        <button class="button secondary" id="register-button" type="button">Registreren</button>
-        <button class="button secondary" id="logout-button" type="button">Uitloggen</button>
-      </div>
+      <form id="auth-form">
+        <div class="user-controls">
+          <input id="auth-email" type="email" placeholder="E-mailadres" />
+          <input id="auth-password" type="password" placeholder="Wachtwoord" />
+        </div>
+        <div class="button-group" style="margin-top:0.7rem;">
+          <button class="button" data-auth-action="login" type="submit">Inloggen</button>
+          <button class="button secondary" data-auth-action="register" type="submit">Registreren</button>
+          <button class="button secondary" id="logout-button" type="button">Uitloggen</button>
+        </div>
+      </form>
       <div id="auth-message" class="notice"></div>
     </section>
 

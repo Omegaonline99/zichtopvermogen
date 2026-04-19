@@ -90,6 +90,7 @@ const updateAuthUI = async () => {
 };
 
 const authAction = async (mode) => {
+  console.log("[auth] click:", mode);
   clearMessage("auth-message");
   if (!supabase) return showMessage("auth-message", "Supabase configuratie ontbreekt in config.js.", "error");
 
@@ -98,18 +99,25 @@ const authAction = async (mode) => {
   if (!email || !password) return showMessage("auth-message", "Vul e-mail en wachtwoord in.", "error");
 
   const fn = mode === "register" ? supabase.auth.signUp : supabase.auth.signInWithPassword;
-  const { error } = await fn({ email, password });
+  const { data, error } = await fn({ email, password });
+  console.log("[auth] response:", { data, error });
   if (error) return showMessage("auth-message", error.message, "error");
 
   showMessage("auth-message", mode === "register" ? "Registratie gelukt. Controleer eventueel je e-mail." : "Inloggen gelukt.", "success");
   await updateAuthUI();
   await loadAssets();
   renderDashboard();
+
+  if (mode === "login" && !window.location.pathname.endsWith("dashboard.html")) {
+    window.location.href = "dashboard.html";
+  }
 };
 
 const logout = async () => {
   if (!supabase) return;
-  await supabase.auth.signOut();
+  console.log("[auth] logout click");
+  const { error } = await supabase.auth.signOut();
+  console.log("[auth] logout response:", { error });
   uiState.assets = [];
   await updateAuthUI();
   renderDashboard();
@@ -429,13 +437,32 @@ const setupDashboardEvents = () => {
 };
 
 const setupAuthControls = () => {
-  document.getElementById("login-button")?.addEventListener("click", () => authAction("login"));
-  document.getElementById("register-button")?.addEventListener("click", () => authAction("register"));
-  document.getElementById("logout-button")?.addEventListener("click", logout);
+  const authForm = document.getElementById("auth-form");
+  const logoutButton = document.getElementById("logout-button");
+
+  authForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const action = event.submitter?.getAttribute("data-auth-action");
+    if (action === "login") authAction("login");
+    if (action === "register") authAction("register");
+  });
+
+  logoutButton?.addEventListener("click", async () => {
+    await logout();
+    if (!window.location.pathname.endsWith("index.html")) {
+      window.location.href = "index.html";
+    }
+  });
 };
 
 const init = async () => {
   await updateAuthUI();
+
+  const user = await getCurrentUser();
+  if (window.location.pathname.endsWith("dashboard.html") && !user) {
+    window.location.href = "index.html";
+    return;
+  }
   setupAuthControls();
   setupForm();
   setupDashboardEvents();
