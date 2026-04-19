@@ -135,6 +135,32 @@ const validateAssetForm = ({ name, assetClass, value }) => {
   return "";
 };
 
+const parseNumber = (value) => {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+};
+
+const calculatePnL = (asset) => {
+  const current = parseNumber(asset.value);
+  const purchase = parseNumber(asset.purchaseValue);
+  if (current === null || purchase === null || purchase <= 0) {
+    return { available: false, euro: null, percent: null };
+  }
+
+  const euro = current - purchase;
+  const percent = (euro / purchase) * 100;
+  return { available: true, euro, percent };
+};
+
+const formatPnL = (pnl) => {
+  if (!pnl.available) return { text: "Niet beschikbaar", className: "pnl-neutral" };
+  const sign = pnl.euro > 0 ? "+" : "";
+  const text = `${sign}${formatEuro(pnl.euro)} (${sign}${formatPercentage(pnl.percent)})`;
+  const className = pnl.euro > 0 ? "pnl-positive" : pnl.euro < 0 ? "pnl-negative" : "pnl-neutral";
+  return { text, className };
+};
+
+
 const refreshUserUI = () => {
   const users = getUsers();
   const activeUser = getActiveUser();
@@ -227,8 +253,24 @@ const handleAssetForm = () => {
       name,
       assetClass,
       value,
+      purchaseValue: Number(formData.get("purchase_value") || 0) || null,
+      acquiredAt: String(formData.get("acquired_at") || "").trim(),
       notes: String(formData.get("notes") || "").trim(),
-      details: {},
+      details: {
+        stock_ticker: String(formData.get("stock_ticker") || ""),
+        stock_sector: String(formData.get("stock_sector") || ""),
+        stock_region: String(formData.get("stock_region") || ""),
+        bond_coupon: String(formData.get("bond_coupon") || ""),
+        bond_maturity: String(formData.get("bond_maturity") || ""),
+        commodity_type: String(formData.get("commodity_type") || ""),
+        commodity_exposure: String(formData.get("commodity_exposure") || ""),
+        realestate_location: String(formData.get("realestate_location") || ""),
+        realestate_value: String(formData.get("realestate_value") || ""),
+        realestate_rent: String(formData.get("realestate_rent") || ""),
+        crypto_token: String(formData.get("crypto_token") || ""),
+        crypto_network: String(formData.get("crypto_network") || ""),
+        crypto_storage: String(formData.get("crypto_storage") || ""),
+      },
     };
 
     const assets = getAssetsForUser(activeUser);
@@ -348,12 +390,18 @@ const openEditPanel = (asset) => {
   const nameInput = document.getElementById("edit-name");
   const classInput = document.getElementById("edit-class");
   const valueInput = document.getElementById("edit-value");
-  if (!panel || !idInput || !nameInput || !classInput || !valueInput) return;
+  const purchaseValueInput = document.getElementById("edit-purchase-value");
+  const acquiredAtInput = document.getElementById("edit-acquired-at");
+  const notesInput = document.getElementById("edit-notes");
+  if (!panel || !idInput || !nameInput || !classInput || !valueInput || !purchaseValueInput || !acquiredAtInput || !notesInput) return;
 
   idInput.value = String(asset.id);
   nameInput.value = asset.name || "";
   classInput.value = normalizeAssetClass(asset.assetClass);
   valueInput.value = Number(asset.value || 0);
+  purchaseValueInput.value = asset.purchaseValue ?? "";
+  acquiredAtInput.value = asset.acquiredAt || "";
+  notesInput.value = asset.notes || "";
   panel.style.display = "block";
   panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
 };
@@ -385,6 +433,8 @@ const renderUserAssetsTable = (assets) => {
 
   processedAssets.forEach((asset) => {
     const row = document.createElement("tr");
+    row.className = "clickable-row";
+    row.setAttribute("data-view-id", String(asset.id));
     const date = new Date(asset.createdAt);
     const formattedDate = Number.isNaN(date.getTime()) ? "Onbekend" : date.toLocaleDateString("nl-NL");
     row.innerHTML = `
@@ -392,6 +442,7 @@ const renderUserAssetsTable = (assets) => {
       <td>${asset.name}</td>
       <td>${mapAssetClassLabel(normalizeAssetClass(asset.assetClass))}</td>
       <td>${formatEuro(asset.value)}</td>
+      <td class="${formatPnL(calculatePnL(asset)).className}">${formatPnL(calculatePnL(asset)).text}</td>
       <td>
         <button class="button secondary small" data-edit-id="${asset.id}">Bewerken</button>
         <button class="button danger small" data-delete-id="${asset.id}">Verwijderen</button>
@@ -399,6 +450,72 @@ const renderUserAssetsTable = (assets) => {
     `;
     tableBody.appendChild(row);
   });
+};
+
+
+const detailFieldConfig = [
+  ["Ticker", "stock_ticker"],
+  ["Sector", "stock_sector"],
+  ["Regio", "stock_region"],
+  ["Coupon", "bond_coupon"],
+  ["Looptijd", "bond_maturity"],
+  ["Type commodity", "commodity_type"],
+  ["Exposure-vorm", "commodity_exposure"],
+  ["Locatie vastgoed", "realestate_location"],
+  ["Geschatte vastgoedwaarde", "realestate_value"],
+  ["Huurinkomsten", "realestate_rent"],
+  ["Token", "crypto_token"],
+  ["Netwerk", "crypto_network"],
+  ["Opslaglocatie", "crypto_storage"],
+];
+
+const openDetailPanel = (asset) => {
+  const panel = document.getElementById("asset-detail-panel");
+  if (!panel) return;
+
+  const pnl = calculatePnL(asset);
+  const pnlFormatted = formatPnL(pnl);
+
+  const setText = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+    return el;
+  };
+
+  setText("detail-name", asset.name || "Asset detail");
+  setText("detail-class", mapAssetClassLabel(normalizeAssetClass(asset.assetClass)));
+  setText("detail-value", formatEuro(asset.value));
+  setText("detail-purchase-value", asset.purchaseValue ? formatEuro(asset.purchaseValue) : "Niet beschikbaar");
+  setText("detail-purchase-date", asset.acquiredAt || "Niet beschikbaar");
+
+  const pnlEurEl = setText("detail-pnl-eur", pnl.available ? formatEuro(pnl.euro) : "Niet beschikbaar");
+  const pnlPctEl = setText("detail-pnl-pct", pnl.available ? formatPercentage(pnl.percent) : "Niet beschikbaar");
+  [pnlEurEl, pnlPctEl].forEach((el) => {
+    if (!el) return;
+    el.classList.remove("pnl-positive", "pnl-negative", "pnl-neutral");
+    el.classList.add(pnlFormatted.className);
+  });
+
+  setText("detail-notes", asset.notes || "Niet beschikbaar");
+
+  const extraContainer = document.getElementById("detail-extra-fields");
+  if (extraContainer) {
+    extraContainer.innerHTML = "";
+    detailFieldConfig.forEach(([label, key]) => {
+      const value = asset.details?.[key];
+      if (!value) return;
+      const item = document.createElement("div");
+      item.innerHTML = `<span class="detail-label">${label}</span><strong>${value}</strong>`;
+      extraContainer.appendChild(item);
+    });
+  }
+
+  panel.style.display = "block";
+};
+
+const closeDetailPanel = () => {
+  const panel = document.getElementById("asset-detail-panel");
+  if (panel) panel.style.display = "none";
 };
 
 const updateAsset = (assetId, payload) => {
@@ -416,6 +533,7 @@ const handleDeleteAsset = (assetId) => {
   const assets = getAssetsForUser(activeUser);
   saveAssetsForUser(activeUser, assets.filter((asset) => String(asset.id) !== String(assetId)));
   closeEditPanel();
+  closeDetailPanel();
   renderDashboard();
   showMessage(document.getElementById("dashboard-message"), "Asset verwijderd uit portfolio van actieve gebruiker.", "success");
 };
@@ -426,6 +544,7 @@ const attachDashboardEvents = () => {
   const sortSelect = document.getElementById("asset-sort");
   const editForm = document.getElementById("edit-asset-form");
   const cancelEditButton = document.getElementById("cancel-edit-button");
+  const closeDetailButton = document.getElementById("close-detail-button");
 
   if (filterSelect) {
     filterSelect.addEventListener("change", () => {
@@ -453,7 +572,15 @@ const attachDashboardEvents = () => {
       if (editId) {
         const activeUser = getActiveUser();
         const asset = getAssetsForUser(activeUser).find((item) => String(item.id) === String(editId));
-        if (asset) openEditPanel(asset);
+        if (asset) return openEditPanel(asset);
+      }
+
+      const row = target.closest("tr");
+      const viewId = row?.getAttribute("data-view-id");
+      if (viewId) {
+        const activeUser = getActiveUser();
+        const asset = getAssetsForUser(activeUser).find((item) => String(item.id) === String(viewId));
+        if (asset) openDetailPanel(asset);
       }
     });
   }
@@ -465,11 +592,14 @@ const attachDashboardEvents = () => {
       const name = String(document.getElementById("edit-name")?.value || "").trim();
       const assetClass = normalizeAssetClass(document.getElementById("edit-class")?.value || "");
       const value = Number(document.getElementById("edit-value")?.value || 0);
+      const purchaseValue = Number(document.getElementById("edit-purchase-value")?.value || 0) || null;
+      const acquiredAt = String(document.getElementById("edit-acquired-at")?.value || "").trim();
+      const notes = String(document.getElementById("edit-notes")?.value || "").trim();
 
       const error = validateAssetForm({ name, assetClass, value });
       if (error) return showMessage(document.getElementById("dashboard-message"), error, "error");
 
-      updateAsset(id, { name, assetClass, value });
+      updateAsset(id, { name, assetClass, value, purchaseValue, acquiredAt, notes });
       closeEditPanel();
       renderDashboard();
       showMessage(document.getElementById("dashboard-message"), "Asset bijgewerkt.", "success");
@@ -477,6 +607,7 @@ const attachDashboardEvents = () => {
   }
 
   if (cancelEditButton) cancelEditButton.addEventListener("click", closeEditPanel);
+  if (closeDetailButton) closeDetailButton.addEventListener("click", closeDetailPanel);
 };
 
 const renderDashboard = () => {

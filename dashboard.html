@@ -52,6 +52,27 @@
           <article class="card"><h3>Totaal assets</h3><div class="value" id="asset-count">12</div></article>
           <article class="card"><h3>Jouw toegevoegde assets</h3><div class="value" id="user-asset-count">0</div></article>
         </div>
+
+        <div class="detail-panel" id="asset-detail-panel" style="display:none;">
+          <div class="detail-header">
+            <h3 id="detail-name">Asset detail</h3>
+            <button class="button secondary small" type="button" id="close-detail-button">Sluiten</button>
+          </div>
+          <div class="detail-grid">
+            <div><span class="detail-label">Categorie</span><strong id="detail-class">-</strong></div>
+            <div><span class="detail-label">Huidige waarde</span><strong id="detail-value">-</strong></div>
+            <div><span class="detail-label">Aankoopwaarde</span><strong id="detail-purchase-value">-</strong></div>
+            <div><span class="detail-label">Aankoopdatum</span><strong id="detail-purchase-date">-</strong></div>
+            <div><span class="detail-label">Winst/Verlies (€)</span><strong id="detail-pnl-eur">-</strong></div>
+            <div><span class="detail-label">Winst/Verlies (%)</span><strong id="detail-pnl-pct">-</strong></div>
+          </div>
+          <div class="detail-notes">
+            <span class="detail-label">Notities</span>
+            <p id="detail-notes">Niet beschikbaar</p>
+          </div>
+          <div class="detail-extra" id="detail-extra-fields"></div>
+        </div>
+
       </section>
 
       <section class="dashboard-grid">
@@ -137,6 +158,27 @@
             </tbody>
           </table>
         </div>
+
+        <div class="detail-panel" id="asset-detail-panel" style="display:none;">
+          <div class="detail-header">
+            <h3 id="detail-name">Asset detail</h3>
+            <button class="button secondary small" type="button" id="close-detail-button">Sluiten</button>
+          </div>
+          <div class="detail-grid">
+            <div><span class="detail-label">Categorie</span><strong id="detail-class">-</strong></div>
+            <div><span class="detail-label">Huidige waarde</span><strong id="detail-value">-</strong></div>
+            <div><span class="detail-label">Aankoopwaarde</span><strong id="detail-purchase-value">-</strong></div>
+            <div><span class="detail-label">Aankoopdatum</span><strong id="detail-purchase-date">-</strong></div>
+            <div><span class="detail-label">Winst/Verlies (€)</span><strong id="detail-pnl-eur">-</strong></div>
+            <div><span class="detail-label">Winst/Verlies (%)</span><strong id="detail-pnl-pct">-</strong></div>
+          </div>
+          <div class="detail-notes">
+            <span class="detail-label">Notities</span>
+            <p id="detail-notes">Niet beschikbaar</p>
+          </div>
+          <div class="detail-extra" id="detail-extra-fields"></div>
+        </div>
+
       </section>
 
       <section class="card" style="margin-top: 1rem;">
@@ -181,6 +223,7 @@
                 <th>Asset</th>
                 <th>Class</th>
                 <th>Waarde</th>
+                <th>Winst/Verlies</th>
                 <th>Actie</th>
               </tr>
             </thead>
@@ -210,12 +253,45 @@
               <label for="edit-value">Waarde (€)</label>
               <input id="edit-value" type="number" step="0.01" min="0" required />
             </div>
+            <div class="form-group">
+              <label for="edit-purchase-value">Aankoopwaarde (€)</label>
+              <input id="edit-purchase-value" type="number" step="0.01" min="0" />
+            </div>
+            <div class="form-group">
+              <label for="edit-acquired-at">Aankoopdatum</label>
+              <input id="edit-acquired-at" type="date" />
+            </div>
+            <div class="form-group full">
+              <label for="edit-notes">Notities</label>
+              <textarea id="edit-notes"></textarea>
+            </div>
             <div class="form-actions full">
               <button class="button" type="submit">Opslaan</button>
               <button class="button secondary" type="button" id="cancel-edit-button">Annuleren</button>
             </div>
           </form>
         </div>
+
+        <div class="detail-panel" id="asset-detail-panel" style="display:none;">
+          <div class="detail-header">
+            <h3 id="detail-name">Asset detail</h3>
+            <button class="button secondary small" type="button" id="close-detail-button">Sluiten</button>
+          </div>
+          <div class="detail-grid">
+            <div><span class="detail-label">Categorie</span><strong id="detail-class">-</strong></div>
+            <div><span class="detail-label">Huidige waarde</span><strong id="detail-value">-</strong></div>
+            <div><span class="detail-label">Aankoopwaarde</span><strong id="detail-purchase-value">-</strong></div>
+            <div><span class="detail-label">Aankoopdatum</span><strong id="detail-purchase-date">-</strong></div>
+            <div><span class="detail-label">Winst/Verlies (€)</span><strong id="detail-pnl-eur">-</strong></div>
+            <div><span class="detail-label">Winst/Verlies (%)</span><strong id="detail-pnl-pct">-</strong></div>
+          </div>
+          <div class="detail-notes">
+            <span class="detail-label">Notities</span>
+            <p id="detail-notes">Niet beschikbaar</p>
+          </div>
+          <div class="detail-extra" id="detail-extra-fields"></div>
+        </div>
+
       </section>
     </div>
   </main>
