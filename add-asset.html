@@ -19,10 +19,31 @@
   </header>
 
   <main class="container page-section">
-    <section class="card form-card">
+    <section class="card user-panel">
+      <div>
+        <h2>Actieve gebruiker</h2>
+        <p class="subtitle" style="margin:0.35rem 0 0;">Assets worden toegevoegd voor: <strong id="active-user-name">-</strong></p>
+      </div>
+      <div class="user-controls">
+        <select id="user-select"></select>
+        <button class="button secondary" id="switch-user-button" type="button">Wissel gebruiker</button>
+      </div>
+      <div class="user-controls">
+        <input id="new-user-name" type="text" placeholder="Nieuwe gebruiker, bijv. Eva" />
+        <button class="button" id="create-user-button" type="button">Gebruiker aanmaken</button>
+      </div>
+      <div id="user-message" class="notice"></div>
+    </section>
+
+    <section class="card" id="user-start-screen" style="display:none; margin-top:1rem;">
+      <h2>Start met een gebruiker</h2>
+      <p class="subtitle">Maak eerst een gebruiker aan of kies een bestaande gebruiker. Daarna kun je assets toevoegen.</p>
+    </section>
+
+    <section class="card form-card" id="asset-form-section">
       <span class="eyebrow">Handmatige invoer · frontend MVP</span>
       <h1>Nieuwe asset toevoegen</h1>
-      <p class="subtitle">Logische invoerflow met conditionele velden per asset class. Opslag en validatie komen in de volgende fase.</p>
+      <p class="subtitle">Logische invoerflow met conditionele velden per asset class. Beheer (bewerken, filteren, sorteren) doe je op het dashboard.</p>
 
       <form id="asset-form">
         <div class="form-grid">

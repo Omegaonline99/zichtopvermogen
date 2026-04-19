@@ -19,129 +19,205 @@
   </header>
 
   <main class="container page-section" id="dashboard-page">
-    <section>
-      <span class="eyebrow">Persoonlijk dashboard · demo data</span>
-      <h1>Portfolio-overzicht</h1>
-      <p class="subtitle">Frontend-only prototype met logische structuur voor vermogensbeheer en latere data-integraties.</p>
-
-      <div class="kpi-grid">
-        <article class="card"><h3>Totaal vermogen</h3><div class="value" id="total-vermogen">€ 124.500</div></article>
-        <article class="card"><h3>Maandmutatie</h3><div class="value positive">+ € 2.140</div></article>
-        <article class="card"><h3>Totaal assets</h3><div class="value" id="asset-count">12</div></article>
-        <article class="card"><h3>Jouw toegevoegde assets</h3><div class="value" id="user-asset-count">0</div></article>
+    <section class="card user-panel">
+      <div>
+        <h2>Actieve gebruiker</h2>
+        <p class="subtitle" style="margin:0.35rem 0 0;">Portfolio wordt geladen voor: <strong id="active-user-name">-</strong></p>
       </div>
+      <div class="user-controls">
+        <select id="user-select"></select>
+        <button class="button secondary" id="switch-user-button" type="button">Wissel gebruiker</button>
+      </div>
+      <div class="user-controls">
+        <input id="new-user-name" type="text" placeholder="Nieuwe gebruiker, bijv. Eva" />
+        <button class="button" id="create-user-button" type="button">Gebruiker aanmaken</button>
+      </div>
+      <div id="user-message" class="notice"></div>
     </section>
 
-    <section class="dashboard-grid">
-      <article class="card">
-        <h2>Verdeling per asset class</h2>
-        <div class="allocation-list">
-          <div class="allocation-item" data-class="aandelen">
-            <div class="allocation-head"><span>Aandelen</span><strong id="pct-aandelen">41,8%</strong></div>
-            <div class="allocation-bar"><span id="bar-aandelen" style="width: 41.8%"></span></div>
-            <small id="val-aandelen">€ 52.000</small>
+    <section class="card" id="user-start-screen" style="display:none; margin-top:1rem;">
+      <h2>Start met een gebruiker</h2>
+      <p class="subtitle">Kies een bestaande gebruiker of maak een nieuwe gebruiker aan om een eigen portfolio te starten.</p>
+    </section>
+
+    <div id="portfolio-content">
+      <section>
+        <span class="eyebrow">Persoonlijk dashboard · demo data</span>
+        <h1>Portfolio-overzicht</h1>
+        <p class="subtitle">Frontend-only prototype met logische structuur voor vermogensbeheer en latere data-integraties.</p>
+
+        <div class="kpi-grid">
+          <article class="card"><h3>Totaal vermogen</h3><div class="value" id="total-vermogen">€ 124.500</div></article>
+          <article class="card"><h3>Maandmutatie</h3><div class="value positive">+ € 2.140</div></article>
+          <article class="card"><h3>Totaal assets</h3><div class="value" id="asset-count">12</div></article>
+          <article class="card"><h3>Jouw toegevoegde assets</h3><div class="value" id="user-asset-count">0</div></article>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="card">
+          <h2>Verdeling per asset class</h2>
+          <div class="allocation-list">
+            <div class="allocation-item" data-class="aandelen">
+              <div class="allocation-head"><span>Aandelen</span><strong id="pct-aandelen">41,8%</strong></div>
+              <div class="allocation-bar"><span id="bar-aandelen" style="width: 41.8%"></span></div>
+              <small id="val-aandelen">€ 52.000</small>
+            </div>
+            <div class="allocation-item" data-class="vastgoed">
+              <div class="allocation-head"><span>Vastgoed</span><strong id="pct-vastgoed">32,1%</strong></div>
+              <div class="allocation-bar"><span id="bar-vastgoed" style="width: 32.1%"></span></div>
+              <small id="val-vastgoed">€ 40.000</small>
+            </div>
+            <div class="allocation-item" data-class="crypto">
+              <div class="allocation-head"><span>Crypto</span><strong id="pct-crypto">14,9%</strong></div>
+              <div class="allocation-bar"><span id="bar-crypto" style="width: 14.9%"></span></div>
+              <small id="val-crypto">€ 18.500</small>
+            </div>
+            <div class="allocation-item" data-class="bonds">
+              <div class="allocation-head"><span>Bonds</span><strong id="pct-bonds">6,4%</strong></div>
+              <div class="allocation-bar"><span id="bar-bonds" style="width: 6.4%"></span></div>
+              <small id="val-bonds">€ 8.000</small>
+            </div>
+            <div class="allocation-item" data-class="commodity’s">
+              <div class="allocation-head"><span>Commodity’s</span><strong id="pct-commodity">4,8%</strong></div>
+              <div class="allocation-bar"><span id="bar-commodity" style="width: 4.8%"></span></div>
+              <small id="val-commodity">€ 6.000</small>
+            </div>
           </div>
-          <div class="allocation-item" data-class="vastgoed">
-            <div class="allocation-head"><span>Vastgoed</span><strong id="pct-vastgoed">32,1%</strong></div>
-            <div class="allocation-bar"><span id="bar-vastgoed" style="width: 32.1%"></span></div>
-            <small id="val-vastgoed">€ 40.000</small>
+        </article>
+
+        <article class="card">
+          <h2>Spreiding & concentratierisico</h2>
+          <div class="risk-block">
+            <p><strong>Spreidingsindicator:</strong> <span id="diversification-indicator" class="status-pill neutral">Berekenen...</span></p>
+            <p class="risk-note" id="diversification-note">Nog geen analyse beschikbaar.</p>
           </div>
-          <div class="allocation-item" data-class="crypto">
-            <div class="allocation-head"><span>Crypto</span><strong id="pct-crypto">14,9%</strong></div>
-            <div class="allocation-bar"><span id="bar-crypto" style="width: 14.9%"></span></div>
-            <small id="val-crypto">€ 18.500</small>
+
+          <div class="insight-grid">
+            <div class="insight-item">
+              <span class="insight-label">Grootste positie</span>
+              <strong id="largest-position">-</strong>
+            </div>
+            <div class="insight-item">
+              <span class="insight-label">Kleinste positie</span>
+              <strong id="smallest-position">-</strong>
+            </div>
+            <div class="insight-item">
+              <span class="insight-label">Meest voorkomende class</span>
+              <strong id="most-common-class">-</strong>
+            </div>
           </div>
-          <div class="allocation-item" data-class="bonds">
-            <div class="allocation-head"><span>Bonds</span><strong id="pct-bonds">6,4%</strong></div>
-            <div class="allocation-bar"><span id="bar-bonds" style="width: 6.4%"></span></div>
-            <small id="val-bonds">€ 8.000</small>
+        </article>
+      </section>
+
+      <section class="card" style="margin-top: 1rem;">
+        <h2>Asset class overzicht</h2>
+        <p class="subtitle" style="margin-bottom: 0.8rem;">Totale waarde en percentage per categorie op basis van demo + jouw invoer.</p>
+        <div class="class-summary-grid" id="class-summary-grid"></div>
+      </section>
+
+      <section class="card" style="margin-top: 1rem;">
+        <h2>Recente demo-bezittingen</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Asset</th>
+                <th>Class</th>
+                <th>Waarde</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>16-04-2026</td><td>iShares MSCI World</td><td>Aandelen</td><td>€ 4.600</td><td><span class="status-chip">Toegevoegd</span></td></tr>
+              <tr><td>14-04-2026</td><td>Ethereum</td><td>Crypto</td><td>€ 3.150</td><td><span class="status-chip">Geüpdatet</span></td></tr>
+              <tr><td>12-04-2026</td><td>Goud ETC</td><td>Commodity’s</td><td>€ 2.250</td><td><span class="status-chip">Toegevoegd</span></td></tr>
+              <tr><td>10-04-2026</td><td>NL Staatsobligatie 2031</td><td>Bonds</td><td>€ 6.800</td><td><span class="status-chip">Geüpdatet</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top: 1rem;">
+        <h2>Jouw toegevoegde assets</h2>
+        <p class="subtitle" style="margin-bottom: 0.8rem;">Deze lijst komt uit localStorage en blijft beschikbaar na refresh.</p>
+
+        <div class="toolbar-row">
+          <div class="toolbar-group">
+            <label for="asset-filter-class">Filter op class</label>
+            <select id="asset-filter-class">
+              <option value="all">Alle classes</option>
+              <option value="aandelen">Aandelen</option>
+              <option value="bonds">Bonds</option>
+              <option value="commodity’s">Commodity’s</option>
+              <option value="vastgoed">Vastgoed</option>
+              <option value="crypto">Crypto</option>
+            </select>
           </div>
-          <div class="allocation-item" data-class="commodity’s">
-            <div class="allocation-head"><span>Commodity’s</span><strong id="pct-commodity">4,8%</strong></div>
-            <div class="allocation-bar"><span id="bar-commodity" style="width: 4.8%"></span></div>
-            <small id="val-commodity">€ 6.000</small>
+
+          <div class="toolbar-group">
+            <label for="asset-sort">Sorteer op</label>
+            <select id="asset-sort">
+              <option value="recent">Recent toegevoegd</option>
+              <option value="name">Naam</option>
+              <option value="value_desc">Hoogste waarde</option>
+              <option value="value_asc">Laagste waarde</option>
+            </select>
           </div>
         </div>
-      </article>
 
-      <article class="card">
-        <h2>Spreiding & concentratierisico</h2>
-        <div class="risk-block">
-          <p><strong>Spreidingsindicator:</strong> <span id="diversification-indicator" class="status-pill neutral">Berekenen...</span></p>
-          <p class="risk-note" id="diversification-note">Nog geen analyse beschikbaar.</p>
+        <div id="dashboard-message" class="notice"></div>
+
+        <div class="empty-state" id="assets-empty-state">
+          Je hebt nog geen assets toegevoegd. Voeg je eerste asset toe via het formulier.
         </div>
 
-        <div class="insight-grid">
-          <div class="insight-item">
-            <span class="insight-label">Grootste positie</span>
-            <strong id="largest-position">-</strong>
-          </div>
-          <div class="insight-item">
-            <span class="insight-label">Kleinste positie</span>
-            <strong id="smallest-position">-</strong>
-          </div>
-          <div class="insight-item">
-            <span class="insight-label">Meest voorkomende class</span>
-            <strong id="most-common-class">-</strong>
-          </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Asset</th>
+                <th>Class</th>
+                <th>Waarde</th>
+                <th>Actie</th>
+              </tr>
+            </thead>
+            <tbody id="user-assets-body"></tbody>
+          </table>
         </div>
-      </article>
-    </section>
 
-    <section class="card" style="margin-top: 1rem;">
-      <h2>Asset class overzicht</h2>
-      <p class="subtitle" style="margin-bottom: 0.8rem;">Totale waarde en percentage per categorie op basis van demo + jouw invoer.</p>
-      <div class="class-summary-grid" id="class-summary-grid"></div>
-    </section>
-
-    <section class="card" style="margin-top: 1rem;">
-      <h2>Recente demo-bezittingen</h2>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Datum</th>
-              <th>Asset</th>
-              <th>Class</th>
-              <th>Waarde</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>16-04-2026</td><td>iShares MSCI World</td><td>Aandelen</td><td>€ 4.600</td><td><span class="status-chip">Toegevoegd</span></td></tr>
-            <tr><td>14-04-2026</td><td>Ethereum</td><td>Crypto</td><td>€ 3.150</td><td><span class="status-chip">Geüpdatet</span></td></tr>
-            <tr><td>12-04-2026</td><td>Goud ETC</td><td>Commodity’s</td><td>€ 2.250</td><td><span class="status-chip">Toegevoegd</span></td></tr>
-            <tr><td>10-04-2026</td><td>NL Staatsobligatie 2031</td><td>Bonds</td><td>€ 6.800</td><td><span class="status-chip">Geüpdatet</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="card" style="margin-top: 1rem;">
-      <h2>Jouw toegevoegde assets</h2>
-      <p class="subtitle" style="margin-bottom: 0.8rem;">Deze lijst komt uit localStorage en blijft beschikbaar na refresh.</p>
-
-      <div id="dashboard-message" class="notice"></div>
-
-      <div class="empty-state" id="assets-empty-state">
-        Je hebt nog geen assets toegevoegd. Voeg je eerste asset toe via het formulier.
-      </div>
-
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Datum</th>
-              <th>Asset</th>
-              <th>Class</th>
-              <th>Waarde</th>
-              <th>Actie</th>
-            </tr>
-          </thead>
-          <tbody id="user-assets-body"></tbody>
-        </table>
-      </div>
-    </section>
+        <div class="edit-panel" id="edit-panel" style="display:none;">
+          <h3>Asset bewerken</h3>
+          <form id="edit-asset-form" class="form-grid">
+            <input type="hidden" id="edit-asset-id" />
+            <div class="form-group">
+              <label for="edit-name">Naam</label>
+              <input id="edit-name" type="text" required />
+            </div>
+            <div class="form-group">
+              <label for="edit-class">Asset class</label>
+              <select id="edit-class" required>
+                <option value="aandelen">Aandelen</option>
+                <option value="bonds">Bonds</option>
+                <option value="commodity’s">Commodity’s</option>
+                <option value="vastgoed">Vastgoed</option>
+                <option value="crypto">Crypto</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-value">Waarde (€)</label>
+              <input id="edit-value" type="number" step="0.01" min="0" required />
+            </div>
+            <div class="form-actions full">
+              <button class="button" type="submit">Opslaan</button>
+              <button class="button secondary" type="button" id="cancel-edit-button">Annuleren</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
   </main>
 
   <footer class="footer">Demo data • klaar voor latere koppeling met portfolio-API en waarderingsengine.</footer>
