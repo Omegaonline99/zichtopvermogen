@@ -89,13 +89,13 @@ const updateAuthUI = async () => {
   if (content) content.style.display = user ? "block" : "none";
 };
 
-const authAction = async (mode) => {
+const authAction = async (mode, credentials = null) => {
   console.log("[auth] click:", mode);
   clearMessage("auth-message");
   if (!supabase) return showMessage("auth-message", "Supabase configuratie ontbreekt in config.js.", "error");
 
-  const email = String(document.getElementById("auth-email")?.value || "").trim();
-  const password = String(document.getElementById("auth-password")?.value || "").trim();
+  const email = String((credentials?.email ?? document.getElementById("auth-email")?.value) || "").trim();
+  const password = String((credentials?.password ?? document.getElementById("auth-password")?.value) || "").trim();
   if (!email || !password) return showMessage("auth-message", "Vul e-mail en wachtwoord in.", "error");
 
   const fn = mode === "register" ? supabase.auth.signUp : supabase.auth.signInWithPassword;
@@ -103,7 +103,9 @@ const authAction = async (mode) => {
   console.log("[auth] response:", { data, error });
   if (error) return showMessage("auth-message", error.message, "error");
 
-  showMessage("auth-message", mode === "register" ? "Registratie gelukt. Controleer eventueel je e-mail." : "Inloggen gelukt.", "success");
+  const successText = mode === "register" ? "Registratie gelukt. Controleer eventueel je e-mail." : "Inloggen gelukt.";
+  showMessage("auth-message", successText, "success");
+  if (mode === "register") alert(successText);
   await updateAuthUI();
   await loadAssets();
   renderDashboard();
@@ -436,6 +438,64 @@ const setupDashboardEvents = () => {
   });
 };
 
+
+
+const openRegisterModal = () => {
+  let modal = document.getElementById("register-modal");
+
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "register-modal";
+    modal.className = "register-modal";
+    modal.innerHTML = `
+      <div class="register-modal-card">
+        <h3>Account registreren</h3>
+        <p class="subtitle" style="margin-top:0.4rem;">Maak een account aan met e-mailadres en wachtwoord.</p>
+        <form id="register-modal-form">
+          <div class="form-grid" style="grid-template-columns:1fr;">
+            <div class="form-group">
+              <label for="register-email">E-mailadres</label>
+              <input id="register-email" type="email" required />
+            </div>
+            <div class="form-group">
+              <label for="register-password">Wachtwoord</label>
+              <input id="register-password" type="password" required />
+            </div>
+          </div>
+          <div class="button-group" style="margin-top:0.8rem;">
+            <button class="button" type="submit">Registreren</button>
+            <button class="button secondary" type="button" id="close-register-modal">Sluiten</button>
+          </div>
+        </form>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.querySelector("#close-register-modal")?.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) modal.style.display = "none";
+    });
+
+    modal.querySelector("#register-modal-form")?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = String(document.getElementById("register-email")?.value || "").trim();
+      const password = String(document.getElementById("register-password")?.value || "").trim();
+      await authAction("register", { email, password });
+      modal.style.display = "none";
+    });
+  }
+
+  const authEmail = String(document.getElementById("auth-email")?.value || "").trim();
+  if (authEmail && document.getElementById("register-email")) {
+    document.getElementById("register-email").value = authEmail;
+  }
+
+  modal.style.display = "flex";
+};
+
 const setupAuthControls = () => {
   const authForm = document.getElementById("auth-form");
   const logoutButton = document.getElementById("logout-button");
@@ -444,7 +504,7 @@ const setupAuthControls = () => {
     event.preventDefault();
     const action = event.submitter?.getAttribute("data-auth-action");
     if (action === "login") authAction("login");
-    if (action === "register") authAction("register");
+    if (action === "register") openRegisterModal();
   });
 
   logoutButton?.addEventListener("click", async () => {
