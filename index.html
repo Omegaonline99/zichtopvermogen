@@ -3,88 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio Platform</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #1f2937;
-    }
-
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-    }
-
-    .card {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      max-width: 800px;
-      width: 100%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 42px;
-      margin-bottom: 16px;
-    }
-
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 14px 24px;
-      background: #111827;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-
-    .tags {
-      margin-top: 24px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .tag {
-      background: #e5e7eb;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-    }
-  </style>
+  <title>Zicht op Vermogen - Home</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <section class="hero">
-    <div class="card">
-      <h1>Portfolio Platform</h1>
-      <p>
-        Eén centrale plek om jouw vermogen te beheren, te volgen en later uit te breiden
-        met slimme inzichten over aandelen, obligaties, commodity’s, vastgoed en crypto.
-      </p>
-      <a href="#" class="button">Start hier</a>
-
-      <div class="tags">
-        <div class="tag">Aandelen</div>
-        <div class="tag">Bonds</div>
-        <div class="tag">Commodity’s</div>
-        <div class="tag">Vastgoed</div>
-        <div class="tag">Crypto</div>
-      </div>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">Zicht op Vermogen</div>
+      <nav class="nav-links">
+        <a class="active" href="index.html">Home</a>
+        <a href="dashboard.html">Demo dashboard</a>
+        <a href="add-asset.html">Asset toevoegen</a>
+      </nav>
     </div>
-  </section>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-grid">
+        <article class="hero-card">
+          <span class="eyebrow">Persoonlijk vermogensbeheer · MVP</span>
+          <h1>Één professioneel overzicht van je volledige vermogen</h1>
+          <p class="subtitle">
+            Breng aandelen, bonds, commodity’s, vastgoed en crypto samen in één moderne interface.
+            Zie direct je totale vermogenspositie, verdeling en concentratierisico — zonder complexe tooling.
+          </p>
+
+          <ul class="benefits-list">
+            <li>Direct inzicht in totale vermogensverdeling</li>
+            <li>Heldere dashboards per asset class en bezit</li>
+            <li>Voorbereid op toekomstige DeGiro- en Bitvavo-import</li>
+          </ul>
+
+          <div class="button-group">
+            <a class="button" href="dashboard.html">Bekijk demo dashboard</a>
+            <a class="button secondary" href="add-asset.html">Start met asset toevoegen</a>
+          </div>
+
+          <div class="trust-row">
+            <span class="trust-item">Frontend-only MVP</span>
+            <span class="trust-item">Privacyvriendelijke basis</span>
+            <span class="trust-item">Klaar voor schaalbare uitbreiding</span>
+          </div>
+        </article>
+
+        <aside class="panel metrics">
+          <h2 class="panel-title">Demo portfolio snapshot</h2>
+          <div class="metric-item">
+            <div class="metric-title">Totaal vermogen</div>
+            <div class="metric-value">€ 124.500</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-title">Asset classes actief</div>
+            <div class="metric-value">5 categorieën</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-title">Aantal posities</div>
+            <div class="metric-value">12 bezittingen</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-title">Hoogste allocatie</div>
+            <div class="metric-value">Aandelen · 41,8%</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  
+    <section class="container page-section" style="padding-top:0;">
+      <section class="card user-panel">
+        <div>
+          <h2>Inloggen of registreren</h2>
+          <p class="subtitle" style="margin:0.35rem 0 0;">Ingelogd als: <strong id="active-user-email">Niet ingelogd</strong></p>
+        </div>
+        <form id="auth-form">
+          <div class="user-controls">
+            <input id="auth-email" type="email" placeholder="E-mailadres" />
+            <input id="auth-password" type="password" placeholder="Wachtwoord" />
+          </div>
+          <div class="button-group" style="margin-top:0.7rem;">
+            <button class="button" data-auth-action="login" type="submit">Inloggen</button>
+            <button class="button secondary" data-auth-action="register" type="submit">Registreren</button>
+            <button class="button secondary" id="logout-button" type="button">Uitloggen</button>
+          </div>
+        </form>
+        <div id="auth-message" class="notice"></div>
+      </section>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    MVP-interface voor validatie van UX en informatie-architectuur • nog zonder backend of brokerkoppelingen.
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="ui.js"></script>
 </body>
 </html>
